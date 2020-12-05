@@ -10,8 +10,8 @@ import { TypeOfService } from '../models/typeofservice';
 
 export class TypeOfServicesService {
 
-  endpoint = 'http://localhost:4000/api/typeofservices';
-  // endpoint = 'api/typeofservices';
+  // endpoint = 'http://localhost:4000/api/typeofservices';
+  endpoint = 'api/typeofservices';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
