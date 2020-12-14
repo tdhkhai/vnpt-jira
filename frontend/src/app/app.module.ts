@@ -36,7 +36,7 @@ registerLocaleData(en);
     AntDesignModule,
     MatModule,
     HighlightModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

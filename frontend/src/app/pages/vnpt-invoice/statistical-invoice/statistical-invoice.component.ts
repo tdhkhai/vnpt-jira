@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ExcelToFileService } from 'src/app/core/services/exceltofile.service';
 import { UploadComponent } from '../../shared/upload/upload.component';
 import { AddStatisticalInvoiceComponent } from '../add-statistical-invoice/add-statistical-invoice.component';
@@ -8,9 +7,7 @@ import * as moment from 'moment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { UpperCasePipe } from '@angular/common';
 import { EditStaticticalInvoiceComponent } from '../edit-statictical-invoice/edit-statictical-invoice.component';
-import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-statistical-invoice',
@@ -30,12 +27,10 @@ export class StatisticalInvoiceComponent implements OnInit {
   isVisibleInfoSite = false;
   selectedData: any;
   constructor(
-    public dialog: MatDialog,
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
     private invoiceAPI: InvoiceService,
     private modalService: NzModalService,
-    private message: NzMessageService,
   ) { this.getAllInvoices(); }
 
   ngOnInit(): void {
@@ -55,7 +50,10 @@ export class StatisticalInvoiceComponent implements OnInit {
     this.loading = true;
     this.invoiceAPI.GetInvoices().subscribe(
       (data) => {
+        // this.listOfData.push(data);
         this.listOfData = data;
+        console.log(typeof this.listOfData);
+
         this.total = this.listOfData.lenght;
         this.loading = false;
       }

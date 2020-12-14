@@ -30,6 +30,22 @@ const routes: Routes = [
     path: 'users', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule),
     data: { breadcrumb: 'Người dùng' }
   },
+  {
+    path: 'dau-so', loadChildren: () => import('./pages/dauso-services/dauso.module').then(m => m.DauSoModule),
+    data: { breadcrumb: 'Đầu số' }
+  },
+  {
+    path: 'idc', loadChildren: () => import('./pages/idc-services/idc.module').then(m => m.IDCModule),
+    data: { breadcrumb: 'Dịch vụ Hạ tầng lưu trữ' }
+  },
+  {
+    path: 'domain', loadChildren: () => import('./pages/domain-services/domain.module').then(m => m.DomainModule),
+    data: { breadcrumb: 'Tên miền' }
+  },
+  {
+    path: 'webhosting', loadChildren: () => import('./pages/webhosting-services/webhosting.module').then(m => m.WebhostingModule),
+    data: { breadcrumb: 'Webhosting' }
+  },
 ];
 
 @NgModule({

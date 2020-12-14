@@ -10,17 +10,63 @@
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
             <a routerLink="/welcome">Tổng quan</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Hóa đơn điện tử" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Dịch vụ Đầu số" nzIcon="ordered-list">
         <ul>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
+            <a routerLink="/dau-so/tong-quan-dau-so">Tổng quan</a>
+          </li>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
+            <a routerLink="/dau-so/so-lieu-dau-so">Số liệu Đầu số</a>
+          </li>
+          <!-- <li nz-menu-item nzMatchRouter>
+            <a routerLink="/welcome">1900</a>
+          </li> -->
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="IDC" nzIcon="ordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
+            <a routerLink="/idc/tong-quan-idc">Tổng quan</a>
+          </li>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
+            <a routerLink="/idc/so-lieu-idc">Chi tiết</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Tên miền" nzIcon="ordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
+            <a routerLink="/domain/tong-quan-domain">Tổng quan</a>
+          </li>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
+            <a routerLink="/domain/so-lieu-domain">Chi tiết</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Webhosting" nzIcon="ordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
+            <a routerLink="/webhosting/tong-quan-webhosting">Tổng quan</a>
+          </li>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
+            <a routerLink="/webhosting/so-lieu-webhosting">Chi tiết</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Hóa đơn điện tử" nzIcon="ordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzIcon="dashboard">
+            <a routerLink="/vnpt-invoice/tong-quan-hddt">Tổng quan HDDT</a>
+          </li>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
             <a routerLink="/vnpt-invoice/so-lieu-site">Số liệu Site</a>
           </li>
-          <li nz-submenu nzTitle="Báo cáo doanh thu">
+          <li nz-submenu nzTitle="Báo cáo doanh thu" nzIcon="appstore">
             <ul>
               <li nz-menu-item><a routerLink="/vnpt-invoice/bao-cao-doanh-thu-thang">Theo tháng</a></li>
               <li nz-menu-item><a routerLink="/vnpt-invoice/bao-cao-doanh-thu-nam">Cả năm</a></li>
@@ -29,26 +75,26 @@
           <!-- <li nz-menu-item nzMatchRouter>
             <a routerLink="/vnpt-invoice/bao-cao-doanh-thu">Báo cáo doanh thu</a>
           </li> -->
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
             <a routerLink="/vnpt-invoice/chi-tiet-hddt">Chi tiết</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="appstore">
             <a routerLink="/vnpt-invoice/build-invoice-examples">Dựng mẫu HDDT</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzOpen nzTitle="Administrator" nzIcon="form">
         <ul>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="control">
             <a routerLink="/units">Phòng - Ban</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="control">
             <a routerLink="/typeofservices">Loại dịch vụ</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="control">
             <a routerLink="/services">Dịch vụ</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter nzIcon="control">
             <a routerLink="/users">Người dùng</a>
           </li>
         </ul>

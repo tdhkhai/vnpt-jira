@@ -10,8 +10,8 @@ import { User } from '../models/user';
 
 export class UserService {
 
-  // endpoint = 'http://localhost:4000/api/users';
-  endpoint = 'api/users';
+  endpoint = 'http://localhost:4000/api/users';
+  // endpoint = 'api/users';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
 

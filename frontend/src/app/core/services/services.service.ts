@@ -10,8 +10,8 @@ import { Service } from '../models/service';
 
 export class ServicesService {
 
-  // endpoint = 'http://localhost:4000/api/services';
-  endpoint = 'api/services';
+  endpoint = 'http://localhost:4000/api/services';
+  // endpoint = 'api/services';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }

@@ -14,6 +14,7 @@ import { IncomeMonthInvoiceComponent } from './income-month-invoice/income-month
 import { IncomeYearInvoiceComponent } from './income-year-invoice/income-year-invoice.component';
 import { DataOfSitesComponent } from './data-of-sites/data-of-sites.component';
 import { EditStaticticalInvoiceComponent } from './edit-statictical-invoice/edit-statictical-invoice.component';
+import { OverviewInvoiceComponent } from './overview-invoice/overview-invoice.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { EditStaticticalInvoiceComponent } from './edit-statictical-invoice/edit
     IncomeYearInvoiceComponent,
     DataOfSitesComponent,
     EditStaticticalInvoiceComponent,
+    OverviewInvoiceComponent,
   ],
   exports: [
     BuildInvoiceExamplesComponent,
@@ -45,6 +47,7 @@ import { EditStaticticalInvoiceComponent } from './edit-statictical-invoice/edit
     IncomeMonthInvoiceComponent,
     IncomeYearInvoiceComponent,
     DataOfSitesComponent,
+    OverviewInvoiceComponent,
   ],
   providers: [
   ]

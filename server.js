@@ -24,14 +24,15 @@ const userRoute = require('./routes/user.route')
 const typeOfServiceRoute = require('./routes/typeofservice.route')
 const serviceRoute = require('./routes/service.route')
 const invoiceRoute = require('./routes/invoice.route')
-
+const dausoRoute = require('./routes/dauso.route')
+const idcRoute = require('./routes/idc.route')
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
    extended: false
 }));
-// app.use(cors());
+app.use(cors());
 app.use(function (req, res, next) {
    //Enabling CORS
    res.header("Access-Control-Allow-Origin", "*");
@@ -47,6 +48,8 @@ app.use('/api/users/', userRoute)
 app.use('/api/typeofservices/', typeOfServiceRoute)
 app.use('/api/services/', serviceRoute)
 app.use('/api/invoices/', invoiceRoute)
+app.use('/api/dau-so/', dausoRoute)
+app.use('/api/idc/', idcRoute)
 
 // Create port
 const port = process.env.PORT || 4000;

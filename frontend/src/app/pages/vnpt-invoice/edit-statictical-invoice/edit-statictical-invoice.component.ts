@@ -35,7 +35,7 @@ export class EditStaticticalInvoiceComponent implements OnInit {
   ];
 
   invoiceForm: FormGroup;
-
+  monthAction: Date;
   dateAction: Date;
   dateDemo: Date;
   dateGolive: Date;
@@ -59,20 +59,34 @@ export class EditStaticticalInvoiceComponent implements OnInit {
     private invoiceAPI: InvoiceService,
     private notification: NzNotificationService,
     private modal: NzModalRef
-  ) { this.setForm(); }
+  ) {
+    this.isSpinning = true;
+    setTimeout(() => {
+      this.invoiceAPI.GetInvoice(this.selectedId).subscribe(data => {
+        this.isSpinning = false;
+        this.invoiceForm = new FormGroup({
+          monthAction: new FormControl(data.monthAction),
+          dateDemo: new FormControl(data.dateDemo),
+          dateGolive: new FormControl(data.dateGolive),
+          dateExtend: new FormControl(data.dateExtend),
+          dateDelete: new FormControl(data.dateDelete),
+          status: new FormControl(data.status),
+          unitCode: new FormControl(data.unitCode),
+          userName: new FormControl(data.userName),
+          comTaxCode: new FormControl(data.comTaxCode),
+          comName: new FormControl(data.comName),
+          amount: new FormControl(data.amount),
+          income: new FormControl(data.income),
+          incomeDate: new FormControl(data.incomeDate)
+        });
+      });
+    }, 2000);
+  }
 
   ngOnInit(): void {
+    this.setForm();
     this.getAllUnits();
     this.getAllUsersActivated();
-    setTimeout(() => {
-      this.getInvoiceById();
-      this.invoiceForm.value.unitCode = this.selectedData.unitCode;
-      this.invoiceForm.value.userName = this.selectedData.userName;
-      this.am = {
-        unitCode: this.selectedData.unitCode,
-        userName: this.selectedData.userName
-      };
-    }, 1000);
   }
 
   setForm() {
@@ -93,13 +107,13 @@ export class EditStaticticalInvoiceComponent implements OnInit {
     });
   }
 
-  getInvoiceById() {
-    this.isSpinning = true;
-    this.invoiceAPI.GetInvoice(this.selectedId).subscribe(data => {
-      this.selectedData = data;
-      this.isSpinning = false;
-    });
-  }
+  // getInvoiceById() {
+  //   this.isSpinning = true;
+  //   this.invoiceAPI.GetInvoice(this.selectedId).subscribe(data => {
+  //     this.selectedData = data;
+  //     this.isSpinning = false;
+  //   });
+  // }
 
   getAllUnits() {
     this.unitAPI.GetUnitsActivated().subscribe(

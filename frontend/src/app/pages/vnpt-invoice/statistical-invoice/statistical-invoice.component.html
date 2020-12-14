@@ -18,7 +18,7 @@
 </nz-page-header>
 <ng-template #totalTemplate>Tổng cộng {{listOfData.length}}</ng-template>
 
-<nz-table #basicTable [nzShowTotal]="totalTemplate" [nzShowSizeChanger]="true" nzBordered nzPaginationPosition="both"
+<nz-table #headerTable [nzShowTotal]="totalTemplate" [nzShowSizeChanger]="true" nzBordered nzPaginationPosition="both"
   [nzTotal]="listOfData.length" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" nzShowPagination="true"
   (nzPageSizeChange)="changePageSize($event)" (nzPageIndexChange)="changePageIndex($event)" [nzLoading]=loading
   [nzData]="listOfData">

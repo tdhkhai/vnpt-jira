@@ -9,8 +9,8 @@ import { Invoice } from '../models/vnpt-invoice';
 })
 export class InvoiceService {
 
-  // endpoint = 'http://localhost:4000/api/invoices';
-  endpoint = 'api/invoices';
+  endpoint = 'http://localhost:4000/api/invoices';
+  // endpoint = 'api/invoices';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
