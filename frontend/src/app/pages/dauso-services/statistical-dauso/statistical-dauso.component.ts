@@ -56,7 +56,8 @@ export class StatisticalDausoComponent implements OnInit {
       this.listOfData = this.listOfAllData.filter(
         (item: Dauso) =>
         item.comName.includes(filterValue) ||
-        item.userName.includes(filterValue) ||
+        item.am.unitCode.includes(filterValue) ||
+        item.am.userName.includes(filterValue) ||
         item.comTaxCode.includes(filterValue) ||
         item.dauso.includes(filterValue)
         );

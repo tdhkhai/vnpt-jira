@@ -64,6 +64,58 @@ idcRoute.route('/update/:id').put((req, res, next) => {
   })
 })
 
+// Push Extend IDC
+idcRoute.route('/pushextendidc/:id').put((req, res, next) => {
+  IDC.findByIdAndUpdate(
+    req.params.id, {
+    $set: { status: req.body.status },
+    $push: { "extend": req.body.extend },
+    safe: true, upsert: true, new: true
+  }, (error, data) => {
+    if (error) {
+      return next(error);
+      console.log(error)
+    } else {
+      res.json(data)
+      console.log('Data updated successfully')
+    }
+  })
+})
+
+// Pull Extend IDC
+idcRoute.route('/pullextendidc/:id').put((req, res, next) => {
+  IDC.findByIdAndUpdate(
+    req.params.id, {
+    $pull: { "extend": { _id : req.body._id } },
+
+  }, (error, data) => {
+    if (error) {
+      return next(error);
+      console.log(error)
+    } else {
+      res.json(data)
+      console.log('Data updated successfully')
+    }
+  })
+})
+
+// Update Status IDC
+idcRoute.route('/updatestatus/:id').put((req, res, next) => {
+  IDC.findByIdAndUpdate(
+    req.params.id, {
+    $set: req.body,
+  }, (error, data) => {
+    if (error) {
+      return next(error);
+      console.log(error)
+    } else {
+      res.json(data)
+      console.log('Data updated successfully')
+    }
+  })
+})
+
+
 // Delete Invoice
 idcRoute.route('/delete/:id').delete((req, res, next) => {
   IDC.findByIdAndRemove(req.params.id, (error, data) => {

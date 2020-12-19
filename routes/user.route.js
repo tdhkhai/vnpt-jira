@@ -38,6 +38,33 @@ userRoute.route('/activatedusers').get((req, res) => {
   })
 })
 
+// Get Users for Select
+userRoute.route('/userselect').get((req, res) => {
+  User.aggregate([
+    {
+      $project: {
+        userCode: 1,
+        unitCode: 1,
+        userName: 1,
+        status: 1,
+      }
+    },
+    {
+      $sort: {
+        _id: 1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
 // Get single employee
 userRoute.route('/read/:id').get((req, res) => {
   User.findById(req.params.id, (error, data) => {

@@ -6,28 +6,42 @@ let IDC = new Schema({
     id: {
         type: String
     },
+    status: String,
     loaiIDC: {
         type: String
     },
-    am:{
-        type: Object
+    am: {
+        _id: String,
+        userCode: String,
+        unitCode: String,
+        userName: String,
     },
-    comTaxCode:{
+    comTaxCode: {
         type: String
     },
-    comName:{
+    comName: {
         type: String
     },
-    registrationDate:{
+    registrationDate: {
         type: Date
     },
-    extendDate:{
-        type: Object
+    expirationDate: Date,
+    incomeDate: Date,
+    income: Number,
+    bundle: String,
+    extend: {
+        _id: String,
+        numberOfExtend: String,
+        fromDate: Date,
+        toDate: Date,
+        incomeDate: Date,
+        income: Number,
+        remark: String
     },
-    cancelDate:{
+    cancelDate: {
         type: Date
     },
-    remark:{
+    remark: {
         type: String
     },
 }, {

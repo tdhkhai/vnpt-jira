@@ -8,6 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EditStaticticalInvoiceComponent } from '../edit-statictical-invoice/edit-statictical-invoice.component';
+import { Invoice } from 'src/app/core/models/vnpt-invoice';
 
 @Component({
   selector: 'app-statistical-invoice',
@@ -23,9 +24,11 @@ export class StatisticalInvoiceComponent implements OnInit {
   infoSite3: string;
   fileUpload: File;
   listOfData: any = [];
+  listOfAllData: any = [];
   loading: boolean;
   isVisibleInfoSite = false;
   selectedData: any;
+  searchValue = '';
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
@@ -46,14 +49,30 @@ export class StatisticalInvoiceComponent implements OnInit {
     this.getAllInvoices();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    // let filterValueLower = filterValue.toLowerCase();
+
+    if (filterValue === '') {
+      this.listOfData = this.listOfAllData;
+    }
+    else {
+      this.listOfData = this.listOfAllData.filter(
+        (item: Invoice) =>
+          item.comName.includes(filterValue) ||
+          item.comTaxCode.includes(filterValue)
+          // item.userName.includes(filterValue)
+      );
+    }
+  }
+
   getAllInvoices() {
     this.loading = true;
     this.invoiceAPI.GetInvoices().subscribe(
       (data) => {
         // this.listOfData.push(data);
+        this.listOfAllData = data;
         this.listOfData = data;
-        console.log(typeof this.listOfData);
-
         this.total = this.listOfData.lenght;
         this.loading = false;
       }
@@ -110,7 +129,7 @@ export class StatisticalInvoiceComponent implements OnInit {
 
       this.invoiceAPI.AddInvoice(element).subscribe(res => {
         this.getAllInvoices();
-        this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
+        // this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
       }, (error) => {
         console.log(error);
         this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');

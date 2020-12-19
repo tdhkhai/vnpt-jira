@@ -32,8 +32,7 @@ export class AddDausoComponent implements OnInit {
     this.dausoForm = new FormGroup({
       loaiDauso: new FormControl(),
       dauso: new FormControl(),
-      unitCode: new FormControl(),
-      userName: new FormControl(),
+      am: new FormControl(),
       comTaxCode: new FormControl(),
       comName: new FormControl(),
       registrationDate: new FormControl(Date()),
@@ -46,7 +45,7 @@ export class AddDausoComponent implements OnInit {
     this.userAPI.GetUsersActivated().subscribe(
       (data) => {
         this.listOfUser = data;
-        console.log(this.listOfUser);
+        // console.log(this.listOfUser);
 
       }
     );
@@ -54,11 +53,8 @@ export class AddDausoComponent implements OnInit {
 
   close() { }
 
-  submitInvoiceForm() {
-    this.dausoForm.value.unitCode = this.dausoForm.value.userName.unitCode;
-    this.dausoForm.value.userName = this.dausoForm.value.userName.userName;
-
-    console.log(this.dausoForm.value);
+  submitForm() {
+    // console.log(this.dausoForm.value);
     this.dausoAPI.AddDauso(this.dausoForm.value).subscribe(res => {
       this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
       this.modal.destroy();

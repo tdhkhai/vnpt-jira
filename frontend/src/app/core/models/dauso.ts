@@ -1,9 +1,10 @@
+import { User } from './user';
+
 export interface Dauso {
   _id: string;
   loaiDauso: string;
   dauso: string;
-  unitCode: string;
-  userName: string;
+  am: User;
   comTaxCode: string;
   comName: string;
   registrationDate: Date;

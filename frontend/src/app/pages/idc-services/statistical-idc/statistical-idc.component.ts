@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import { UploadComponent } from '../../shared/upload/upload.component';
 import { AddIdcComponent } from '../add-idc/add-idc.component';
 import { EditIdcComponent } from '../edit-idc/edit-idc.component';
+import { ExtendDetailsComponent } from '../extend-details/extend-details.component';
 @Component({
   selector: 'app-statistical-idc',
   templateUrl: './statistical-idc.component.html',
@@ -20,11 +21,13 @@ export class StatisticalIdcComponent implements OnInit {
   selectedId: string;
   searchValue = '';
   visible = false;
+  expandSet = new Set<string>();
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
     private modalService: NzModalService,
-    private idcAPI: IDCService,) { }
+    private idcAPI: IDCService
+  ) { }
 
   ngOnInit(): void {
     this.getAllIDCs();
@@ -57,8 +60,16 @@ export class StatisticalIdcComponent implements OnInit {
     }
   }
 
+  onExpandChange(id: string, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   exportExcel() {
-    this.excelToFile.exportExcel(this.listOfData, 'danh_sach_1800_1900');
+    this.excelToFile.exportExcel(this.listOfData, 'danh_sach_idc');
   }
 
   importExcel() {
@@ -99,7 +110,7 @@ export class StatisticalIdcComponent implements OnInit {
     };
   }
 
-    // importDataImport(data: any) {
+  // importDataImport(data: any) {
   //   data.forEach(element => {
 
   //     element.incomeDate = moment(element.incomeDate).toISOString();
@@ -129,6 +140,33 @@ export class StatisticalIdcComponent implements OnInit {
       this.getAllIDCs();
     });
 
+  }
+
+  openExtendDetails(selectedId: any) {
+    const modal = this.modalService.create({
+      nzTitle: 'THÔNG TIN GIA HẠN DỊCH VỤ',
+      nzContent: ExtendDetailsComponent,
+      nzWidth: 800,
+      nzBodyStyle: {
+        height: '320px'
+      },
+    });
+    modal.componentInstance.selectedId = selectedId;
+    modal.afterClose.subscribe(res => {
+      this.getAllIDCs();
+    });
+  }
+
+  deleteExtend(id: string, data: string) {
+    this.idcAPI.pullExtendIDC(id, {_id: data}).subscribe(
+      (res) => {
+        this.getAllIDCs();
+        this.notification.create('success', 'Thành công', 'Bạn đã xóa gia hạn thành công!');
+      }, (error) => {
+        console.log(error);
+        this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
+      }
+    );
   }
 
   editModal(selectedId: any) {

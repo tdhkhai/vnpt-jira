@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Dauso } from 'src/app/core/models/dauso';
+import { User } from 'src/app/core/models/user';
 import { DausoService } from 'src/app/core/services/dauso.service';
 import { ExcelToFileService } from 'src/app/core/services/exceltofile.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -37,35 +38,30 @@ export class EditDausoComponent implements OnInit {
           this.dausoForm = new FormGroup({
             loaiDauso: new FormControl(data.loaiDauso),
             dauso: new FormControl(data.dauso),
-            unitCode: new FormControl(data.unitCode),
-            userName: new FormControl(data.userName),
+            am: new FormControl(data.am),
             comTaxCode: new FormControl(data.comTaxCode),
             comName: new FormControl(data.comName),
             registrationDate: new FormControl(data.registrationDate),
             cancelDate: new FormControl(data.cancelDate),
             remark: new FormControl(data.remark),
           });
+          console.log(this.dausoForm.value);
+
         }
       );
-    },1000);
+    }, 1000);
   }
 
   ngOnInit(): void {
     this.getAllUsersActivated();
     this.setForm();
-    // setTimeout(() => {
-    //   this.getDausobyId();
-    //   this.dausoForm.value.unitCode = this.selectedData.unitCode;
-    //   this.dausoForm.value.userName = this.selectedData.userName;
-    // }, 1000);
   }
 
   setForm() {
     this.dausoForm = new FormGroup({
       loaiDauso: new FormControl(),
       dauso: new FormControl(),
-      unitCode: new FormControl(),
-      userName: new FormControl(),
+      am: new FormControl(),
       comTaxCode: new FormControl(),
       comName: new FormControl(),
       registrationDate: new FormControl(Date()),
@@ -90,12 +86,23 @@ export class EditDausoComponent implements OnInit {
     );
   }
 
+  compareByOptionId(c1, c2) {
+    return c1 && c2 ? c1._id === c2._id : c1 === c2;
+  }
+
   close() {
     this.modal.destroy();
   }
 
-  submitInvoiceForm() {
+  submitForm() {
 
+    this.dausoAPI.UpdateDauso(this.selectedId, this.dausoForm.value).subscribe(res => {
+      this.notification.create('success', 'Thành công', 'Bạn đã cập nhật thành công!');
+      this.modal.destroy();
+    }, err => {
+      console.log(err);
+      this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
+    });
   }
 
 }

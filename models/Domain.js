@@ -2,14 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define collection and schema
-let Dauso = new Schema({
+let Domain = new Schema({
     id: {
         type: String
     },
-    loaiDauso: {
-        type: String
-    },
-    dauso: {
+    loaiDomain: {
         type: String
     },
     am: {
@@ -18,23 +15,26 @@ let Dauso = new Schema({
         unitCode: String,
         userName: String,
     },
-    comTaxCode: {
+    comTaxCode:{
         type: String
     },
-    comName: {
+    comName:{
         type: String
     },
-    registrationDate: {
+    registrationDate:{
         type: Date
     },
-    cancelDate: {
+    extendDate:{
+        type: Object
+    },
+    cancelDate:{
         type: Date
     },
-    remark: {
+    remark:{
         type: String
     },
 }, {
-    collection: 'dauso'
+    collection: 'Domain'
 })
 
-module.exports = mongoose.model('Dauso', Dauso)
+module.exports = mongoose.model('Domain', Domain)

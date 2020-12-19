@@ -2,19 +2,19 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { IDC } from '../models/IDC';
+import { Domain } from '../models/domain';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IDCService {
-  endpoint = 'http://localhost:4000/api/idc';
+export class DomainService {
+  endpoint = 'http://localhost:4000/api/domain';
   // endpoint = 'api/dau-so';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  // Add IDC
-  AddIDC(data: IDC): Observable<any> {
+  // Add Domain
+  AddDomain(data: Domain): Observable<any> {
     const API_URL = `${this.endpoint}/create`;
     return this.http.post(API_URL, data)
       .pipe(
@@ -22,13 +22,13 @@ export class IDCService {
       );
   }
 
-  // Get all IDC
-  GetAllIDCs() {
+  // Get all Domain
+  GetAllDomains() {
     return this.http.get(`${this.endpoint}`);
   }
 
-  // Get IDC by Id
-  GetIDC(id): Observable<any> {
+  // Get Domain by Id
+  GetDomain(id): Observable<any> {
     const API_URL = `${this.endpoint}/read/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
@@ -39,8 +39,8 @@ export class IDCService {
       );
   }
 
-  // Update IDC
-  UpdateIDC(id, data): Observable<any> {
+  // Update Domain
+  UpdateDomain(id, data): Observable<any> {
     const API_URL = `${this.endpoint}/update/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
@@ -48,35 +48,8 @@ export class IDCService {
       );
   }
 
-  // Push Extend IDC
-  pushExtendIDC(id, data): Observable<any> {
-    const API_URL = `${this.endpoint}/pushextendidc/${id}`;
-    return this.http.put(API_URL, data, { headers: this.headers })
-      .pipe(
-        catchError(this.errorMgmt)
-      );
-  }
-
-  // Pull Extend IDC
-  pullExtendIDC(id, data): Observable<any> {
-    const API_URL = `${this.endpoint}/pullextendidc/${id}`;
-    return this.http.put(API_URL, data, { headers: this.headers })
-      .pipe(
-        catchError(this.errorMgmt)
-      );
-  }
-
-  // Update Status IDC
-  updateStatusIDC(id, data): Observable<any> {
-    const API_URL = `${this.endpoint}/updatestatus/${id}`;
-    return this.http.put(API_URL, data, { headers: this.headers })
-      .pipe(
-        catchError(this.errorMgmt)
-      );
-  }
-
-  // Delete IDC
-  DeleteIDC(id): Observable<any> {
+  // Delete Domain
+  DeleteDomain(id): Observable<any> {
     const API_URL = `${this.endpoint}/delete/${id}`;
     return this.http.delete(API_URL)
       .pipe(

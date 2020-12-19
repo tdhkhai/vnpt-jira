@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-domain.component.scss']
 })
 export class EditDomainComponent implements OnInit {
-
+  selectedId: string;
   constructor() { }
 
   ngOnInit(): void {

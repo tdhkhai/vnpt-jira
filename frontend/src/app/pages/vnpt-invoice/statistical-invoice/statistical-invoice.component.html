@@ -16,6 +16,18 @@
         nzTheme="outline"></i>Thêm</button>
   </nz-page-header-extra>
 </nz-page-header>
+<nz-form-item>
+  <nz-form-label nzFor="filter">Lọc</nz-form-label>
+  <nz-form-control nzHasFeedback>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input id="filter" [(ngModel)]="searchValue" (keyup)="applyFilter($event)" />
+    </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+<ng-template #suffixIconButton>
+  <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+</ng-template>
+
 <ng-template #totalTemplate>Tổng cộng {{listOfData.length}}</ng-template>
 
 <nz-table #headerTable [nzShowTotal]="totalTemplate" [nzShowSizeChanger]="true" nzBordered nzPaginationPosition="both"
@@ -43,12 +55,12 @@
       <td nzAlign="center">
         {{data.status}}
       </td>
-      <td nzAlign="center">{{data.monthAction |  date:'MM/yyyy'}}</td>
+      <td nzAlign="center">{{data.monthAction | date:'MM/yyyy'}}</td>
       <td><span nz-tooltip nzTooltipTitle="{{data.unitCode}}">{{data.userName}}</span></td>
       <td nzAlign="center">{{data.comTaxCode}}</td>
       <td>{{data.comName}}</td>
-      <td nzAlign="center">{{data.dateDemo |  date:'dd/MM/yyyy'}}</td>
-      <td nzAlign="center">{{data.dateGolive |  date:'dd/MM/yyyy'}}</td>
+      <td nzAlign="center">{{data.dateDemo | date:'dd/MM/yyyy'}}</td>
+      <td nzAlign="center">{{data.dateGolive | date:'dd/MM/yyyy'}}</td>
       <td style="text-align: right;" nz-tooltip nzTooltipTitle="Doanh thu: {{data.income |  currency: 'VND' :''}} VND">
         {{data.amount | currency: 'VND' :''}}</td>
       <td nzAlign="center">

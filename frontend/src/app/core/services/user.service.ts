@@ -36,6 +36,11 @@ export class UserService {
     return this.http.get(`${this.endpoint}/activatedusers`);
   }
 
+    // Get Users for Select
+    GetUsersActivatedForSelect() {
+      return this.http.get(`${this.endpoint}/userselect`);
+    }
+
   // Get User by Id
   GetUser(id): Observable<any> {
     const API_URL = `${this.endpoint}/read/${id}`;

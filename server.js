@@ -26,6 +26,7 @@ const serviceRoute = require('./routes/service.route')
 const invoiceRoute = require('./routes/invoice.route')
 const dausoRoute = require('./routes/dauso.route')
 const idcRoute = require('./routes/idc.route')
+const domainRoute = require('./routes/domain.route')
 
 const app = express();
 app.use(bodyParser.json());
@@ -50,6 +51,7 @@ app.use('/api/services/', serviceRoute)
 app.use('/api/invoices/', invoiceRoute)
 app.use('/api/dau-so/', dausoRoute)
 app.use('/api/idc/', idcRoute)
+app.use('/api/domain/', domainRoute)
 
 // Create port
 const port = process.env.PORT || 4000;

@@ -9,6 +9,7 @@ import { StatisticalIdcComponent } from './statistical-idc/statistical-idc.compo
 import { OverviewIdcComponent } from './overview-idc/overview-idc.component';
 import { AddIdcComponent } from './add-idc/add-idc.component';
 import { EditIdcComponent } from './edit-idc/edit-idc.component';
+import { ExtendDetailsComponent } from './extend-details/extend-details.component';
 
 @NgModule({
   imports: [
@@ -24,12 +25,14 @@ import { EditIdcComponent } from './edit-idc/edit-idc.component';
     OverviewIdcComponent,
     AddIdcComponent,
     EditIdcComponent,
+    ExtendDetailsComponent,
   ],
   exports: [
     StatisticalIdcComponent,
     OverviewIdcComponent,
     AddIdcComponent,
     EditIdcComponent,
+    ExtendDetailsComponent,
   ],
   providers: [
   ]
