@@ -24,6 +24,7 @@ export class StatisticalWebhostingComponent implements OnInit {
   searchValue = '';
   visible = false;
   expandSet = new Set<string>();
+  listOfCurrentPageData: any = [];
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
@@ -34,6 +35,11 @@ export class StatisticalWebhostingComponent implements OnInit {
   ngOnInit(): void {
     this.getAllWebhostings();
   }
+
+  onCurrentPageDataChange(listOfCurrentPageData: any[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+  }
+
 
   getAllWebhostings() {
     this.loading = true;

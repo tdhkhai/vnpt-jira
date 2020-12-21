@@ -28,7 +28,8 @@
   <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
 </ng-template>
 
-<nz-table nzBordered #headerTable [nzLoading]="loading" [nzData]="listOfData">
+<nz-table nzBordered #headerTable [nzLoading]="loading" [nzData]="listOfData" nzShowPagination nzShowSizeChanger
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
       <th nzAlign="center"></th>
@@ -42,7 +43,7 @@
       <th nzAlign="center">Tên Khách hàng</th>
       <th nzAlign="center">Ngày đăng ký</th>
       <th nzAlign="center">Ngày hết hạn</th>
-      <th nzAlign="center">Doanh thu<br/><span style="font-style: italic;">(VNĐ)</span></th>
+      <th nzAlign="center">Doanh thu<br /><span style="font-style: italic;">(VNĐ)</span></th>
       <th nzAlign="center">Thao tác</th>
     </tr>
   </thead>

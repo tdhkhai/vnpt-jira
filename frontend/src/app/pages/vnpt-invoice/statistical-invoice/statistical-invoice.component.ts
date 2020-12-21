@@ -23,12 +23,14 @@ export class StatisticalInvoiceComponent implements OnInit {
   infoSite2: string;
   infoSite3: string;
   fileUpload: File;
-  listOfData: any = [];
-  listOfAllData: any = [];
+  listOfData: any[] = [];
+  listOfAllData: any[] = [];
   loading: boolean;
   isVisibleInfoSite = false;
   selectedData: any;
   searchValue = '';
+  listOfCurrentPageData: any = [];
+  isSpinning = false;
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
@@ -38,15 +40,6 @@ export class StatisticalInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
 
-  }
-
-  changePageIndex(pageIndex) {
-    this.pageIndex = pageIndex;
-    this.getAllInvoices();
-  }
-  changePageSize(pageSize) {
-    this.pageSize = pageSize;
-    this.getAllInvoices();
   }
 
   applyFilter(event: Event) {
@@ -70,10 +63,8 @@ export class StatisticalInvoiceComponent implements OnInit {
     this.loading = true;
     this.invoiceAPI.GetInvoices().subscribe(
       (data) => {
-        // this.listOfData.push(data);
         this.listOfAllData = data;
         this.listOfData = data;
-        this.total = this.listOfData.lenght;
         this.loading = false;
       }
     );

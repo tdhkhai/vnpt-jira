@@ -26,7 +26,7 @@ export class InvoiceService {
 
   // Get all Invoices
   GetInvoices() {
-    return this.http.get(`${this.endpoint}`);
+    return this.http.get<Invoice[]>(`${this.endpoint}`);
   }
 
   // Get all Invoices

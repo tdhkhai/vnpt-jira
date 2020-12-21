@@ -15,12 +15,14 @@ import { IncomeYearInvoiceComponent } from './income-year-invoice/income-year-in
 import { DataOfSitesComponent } from './data-of-sites/data-of-sites.component';
 import { EditStaticticalInvoiceComponent } from './edit-statictical-invoice/edit-statictical-invoice.component';
 import { OverviewInvoiceComponent } from './overview-invoice/overview-invoice.component';
+import { PrimengModule } from 'src/app/primeng.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     AntDesignModule,
+    PrimengModule,
     VNPTInvoiceRoutingModule,
     FormsModule,
     ReactiveFormsModule,

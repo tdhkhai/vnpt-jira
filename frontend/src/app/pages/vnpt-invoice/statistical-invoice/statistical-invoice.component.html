@@ -8,12 +8,15 @@
   </nz-breadcrumb>
 
   <nz-page-header-extra>
-    <button nz-button nzType="danger" nzType="dashed" (click)="importExcel()"><i nz-icon [nzType]="'upload'"
-        [nzTheme]="'outline'"></i>Import</button>
-    <button nz-button nzType="primary" nzType="dashed" (click)="exportExcel()"><i nz-icon [nzType]="'download'"
-        [nzTheme]="'outline'"></i>Export</button>
-    <button nz-button nzType="primary" (click)="showCreate()"><i nz-icon nzType="plus"
-        nzTheme="outline"></i>Thêm</button>
+    <button nz-button nzType="danger" nzType="dashed" (click)="importExcel()">
+      <i nz-icon [nzType]="'upload'" [nzTheme]="'outline'"></i>Import
+    </button>
+    <button nz-button nzType="primary" nzType="dashed" (click)="exportExcel()">
+      <i nz-icon [nzType]="'download'" [nzTheme]="'outline'"></i>Export
+    </button>
+    <button nz-button nzType="primary" (click)="showCreate()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>Thêm
+    </button>
   </nz-page-header-extra>
 </nz-page-header>
 <nz-form-item>
@@ -25,79 +28,111 @@
   </nz-form-control>
 </nz-form-item>
 <ng-template #suffixIconButton>
-  <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+  <button nz-button nzType="primary" nzSearch>
+    <i nz-icon nzType="search"></i>
+  </button>
 </ng-template>
 
-<ng-template #totalTemplate>Tổng cộng {{listOfData.length}}</ng-template>
-
-<nz-table #headerTable [nzShowTotal]="totalTemplate" [nzShowSizeChanger]="true" nzBordered nzPaginationPosition="both"
-  [nzTotal]="listOfData.length" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" nzShowPagination="true"
-  (nzPageSizeChange)="changePageSize($event)" (nzPageIndexChange)="changePageIndex($event)" [nzLoading]=loading
-  [nzData]="listOfData">
-  <thead>
-    <tr>
-      <th nzAlign="center">STT</th>
-      <th nzAlign="center">Trạng thái</th>
-      <th nzAlign="center">Tháng TH</th>
-      <th nzAlign="center">AM</th>
-      <th nzAlign="center">MST</th>
-      <th nzAlign="center">Tên KH</th>
-      <th nzAlign="center">Ngày tạo Demo</th>
-      <th nzAlign="center">Ngày chuyển CT</th>
-      <th nzAlign="center">S.Lượng HĐ</th>
-      <th nzAlign="center">Đã thu tiền</th>
-      <th nzAlign="center">Thao tác</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of listOfData ; index as i">
-      <td nzAlign="center">{{ i+1 }}</td>
-      <td nzAlign="center">
-        {{data.status}}
-      </td>
-      <td nzAlign="center">{{data.monthAction | date:'MM/yyyy'}}</td>
-      <td><span nz-tooltip nzTooltipTitle="{{data.unitCode}}">{{data.userName}}</span></td>
-      <td nzAlign="center">{{data.comTaxCode}}</td>
-      <td>{{data.comName}}</td>
-      <td nzAlign="center">{{data.dateDemo | date:'dd/MM/yyyy'}}</td>
-      <td nzAlign="center">{{data.dateGolive | date:'dd/MM/yyyy'}}</td>
-      <td style="text-align: right;" nz-tooltip nzTooltipTitle="Doanh thu: {{data.income |  currency: 'VND' :''}} VND">
-        {{data.amount | currency: 'VND' :''}}</td>
-      <td nzAlign="center">
-        <ng-container *ngIf="data.incomeDate !== ''; else elseTemplate">
-          <span nz-tooltip nzTooltipTitle="Tháng {{data.incomeDate |  date:'MM/yyyy'}} - {{data.typeOfIncome}}">
-            <i nz-icon nzType="money-collect" nzTheme="twotone" nzTwotoneColor="#008000"></i>
+<ng-template #totalTemplate>Tổng cộng {{ listOfData.length }}</ng-template>
+<nz-spin [nzSpinning]="loading">
+  <p-table [value]="listOfData" styleClass="p-datatable-gridlines p-datatable-striped" [paginator]="true" [rows]="10"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords}"
+    [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th nzAlign="center" style="width: 4%;">STT</th>
+        <th nzAlign="center" style="width: 5%;">Trạng thái</th>
+        <th nzAlign="center" style="width: 6%;">Tháng TH</th>
+        <th nzAlign="center" style="width: 10%;">AM</th>
+        <th nzAlign="center" style="width: 8%;">MST</th>
+        <th nzAlign="center">Tên KH</th>
+        <th nzAlign="center" style="width: 8%;">Ngày tạo Demo</th>
+        <th nzAlign="center" style="width: 8%;">Ngày chuyển CT</th>
+        <th nzAlign="center" style="width: 6%;">S.Lượng HĐ</th>
+        <th nzAlign="center" style="width: 5%;">Đã thu tiền</th>
+        <th nzAlign="center" style="width: 7%;">Thao tác</th>
+      </tr>
+    </ng-template>
+    <!-- <tbody> -->
+    <ng-template pTemplate="body" let-data let-i="rowIndex">
+      <tr>
+        <td nzAlign="center">{{ i + 1}}</td>
+        <td nzAlign="center">
+          <span [ngSwitch]="data.status">
+            <p *ngSwitchCase="'Golive'">
+              <span class="p-tag p-tag-success">{{ data.status }}</span>
+            </p>
+            <p *ngSwitchCase="'Demo'">
+              <span class="p-tag">{{ data.status }}</span>
+            </p>
+            <!-- <p *ngSwitchCase="'Extend'">
+              <span class="p-tag p-tag-warning">{{ data.status }}</span>
+            </p> -->
+            <p *ngSwitchCase="'Bo sung'">
+              <span class="p-tag p-tag-info">Bổ sung</span>
+            </p>
+            <p *ngSwitchCase="'Delete'">
+              <span class="p-tag p-tag-danger">{{ data.status }}</span>
+            </p>
+            <p *ngSwitchDefault>
+              <span class="p-tag">{{ data.status }}</span>
+            </p>
           </span>
-        </ng-container>
-        <ng-template #elseTemplate>
-          <i nz-icon nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#FF0000"></i>
-        </ng-template>
-      </td>
-      <td nzAlign="center">
-        <a (click)="editModal(data._id)" nz-tooltip nzTooltipTitle="Sửa"><i nz-icon nzType="edit"
-            nzTheme="twotone"></i></a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a nz-tooltip nzTooltipTitle="Gửi thông tin site" (click)="showInfoSite(data)"><i nz-icon nzType="send"
-            nzTheme="outline"></i></a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a nz-tooltip nzTooltipTitle="Xóa" nz-popconfirm nzPopconfirmTitle="Bạn thật sự muốn xóa?"
-          nzPopconfirmPlacement="topRight" (nzOnConfirm)="confirmDelete(data._id)" (nzOnCancel)="cancel()"><i nz-icon
-            nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></i></a>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
-
+        </td>
+        <td nzAlign="center">{{ data.monthAction | date: "MM/yyyy" }}</td>
+        <td nzAlign="center">
+          <span nz-tooltip nzTooltipTitle="{{ data.unitCode }}">{{
+            data.userName
+            }}</span>
+        </td>
+        <td nzAlign="center">{{ data.comTaxCode }}</td>
+        <td>{{ data.comName }}</td>
+        <td nzAlign="center">{{ data.dateDemo | date: "dd/MM/yyyy" }}</td>
+        <td nzAlign="center">{{ data.dateGolive | date: "dd/MM/yyyy" }}</td>
+        <td style="text-align: right" nz-tooltip nzTooltipTitle="Doanh thu: {{ data.income | currency: 'VND':'' }} VND">
+          {{ data.amount | currency: "VND":"" }}
+        </td>
+        <td nzAlign="center">
+          <ng-container *ngIf="data.incomeDate !== null; else elseTemplate">
+            <span nz-tooltip nzTooltipTitle="Tháng {{ data.incomeDate | date: 'MM/yyyy' }} - {{
+              data.typeOfIncome
+            }}">
+              <i nz-icon nzType="money-collect" nzTheme="twotone" nzTwotoneColor="#008000"></i>
+            </span>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <i nz-icon nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#FF0000"></i>
+          </ng-template>
+        </td>
+        <td nzAlign="center">
+          <a (click)="editModal(data._id)" nz-tooltip nzTooltipTitle="Sửa"><i nz-icon nzType="edit"
+              nzTheme="twotone"></i></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-tooltip nzTooltipTitle="Gửi thông tin site" (click)="showInfoSite(data)"><i nz-icon nzType="send"
+              nzTheme="outline"></i></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-tooltip nzTooltipTitle="Xóa" nz-popconfirm nzPopconfirmTitle="Bạn thật sự muốn xóa?"
+            nzPopconfirmPlacement="topRight" (nzOnConfirm)="confirmDelete(data._id)" (nzOnCancel)="cancel()"><i nz-icon
+              nzType="delete" [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></i></a>
+        </td>
+      </tr>
+    </ng-template>
+    <!-- </tbody> -->
+  </p-table>
+</nz-spin>
 <nz-modal [(nzVisible)]="isVisibleInfoSite" nzTitle="Thông tin Site khởi tạo" (nzOnCancel)="closeModal()">
   <div *nzModalContent>
-    <button nz-button nzType="primary" nzDanger="true" (click)="infoSiteChange('Demo')">Demo</button>
-    <button nz-button nzType="primary" nzDanger="false" (click)="infoSiteChange('Golive')">Chính thức</button>
+    <button nz-button nzType="primary" nzDanger="true" (click)="infoSiteChange('Demo')">
+      Demo
+    </button>
+    <button nz-button nzType="primary" nzDanger="false" (click)="infoSiteChange('Golive')">
+      Chính thức
+    </button>
     <nz-divider nzType="horizontal"></nz-divider>
-    <b>{{infoSite1}} </b><br />
-    <a href="https://{{infoSite2}}" target="_blank">{{infoSite2}}</a><br />
-    Tài khoản: {{infoSite3}}<br />
+    <b>{{ infoSite1 }} </b><br />
+    <a href="https://{{ infoSite2 }}" target="_blank">{{ infoSite2 }}</a><br />
+    Tài khoản: {{ infoSite3 }}<br />
     Mật khẩu: Einv@oi@vn#pt20<br />
-
   </div>
   <div *nzModalFooter>
     <button nz-button nzType="primary" (click)="closeModal()">Đóng</button>

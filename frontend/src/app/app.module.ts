@@ -17,6 +17,7 @@ import { AntDesignModule } from './antDesign.module';
 import { MatModule } from './mat.module';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ChartsModule } from 'ng2-charts';
+import { PrimengModule } from './primeng.module';
 
 registerLocaleData(en);
 
@@ -37,6 +38,7 @@ registerLocaleData(en);
     MatModule,
     HighlightModule,
     ChartsModule,
+    PrimengModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

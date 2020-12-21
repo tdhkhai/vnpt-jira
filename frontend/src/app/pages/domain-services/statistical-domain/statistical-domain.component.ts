@@ -23,6 +23,7 @@ export class StatisticalDomainComponent implements OnInit {
   searchValue = '';
   visible = false;
   expandSet = new Set<string>();
+  listOfCurrentPageData: any = [];
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
@@ -198,4 +199,10 @@ export class StatisticalDomainComponent implements OnInit {
   }
 
   cancel() { }
+
+  onCurrentPageDataChange(listOfCurrentPageData: any[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+  }
+
+
 }

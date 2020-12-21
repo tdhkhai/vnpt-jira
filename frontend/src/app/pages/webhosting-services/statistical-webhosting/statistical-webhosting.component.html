@@ -28,7 +28,8 @@
   <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
 </ng-template>
 
-<nz-table nzBordered #headerTable [nzLoading]="loading" [nzData]="listOfData">
+<nz-table nzBordered #headerTable [nzLoading]="loading" [nzData]="listOfData" nzShowPagination nzShowSizeChanger
+(nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
       <th nzAlign="center"></th>
