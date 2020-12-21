@@ -1,20 +1,20 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Domain } from '../models/domain';
+import { Webhosting } from '../models/webhosting';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DomainService {
+export class WebhostingService {
   endpoint = 'http://localhost:4000/api/webhosting';
   // endpoint = 'api/dau-so';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  // Add Domain
-  AddDomain(data: Domain): Observable<any> {
+  // Add Webhosting
+  AddWebhosting(data: Webhosting): Observable<any> {
     const API_URL = `${this.endpoint}/create`;
     return this.http.post(API_URL, data)
       .pipe(
@@ -22,13 +22,13 @@ export class DomainService {
       );
   }
 
-  // Get all Domain
-  GetAllDomains() {
+  // Get all Webhosting
+  GetAllWebhostings() {
     return this.http.get(`${this.endpoint}`);
   }
 
-  // Get Domain by Id
-  GetDomain(id): Observable<any> {
+  // Get Webhosting by Id
+  GetWebhosting(id): Observable<any> {
     const API_URL = `${this.endpoint}/read/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
@@ -39,26 +39,26 @@ export class DomainService {
       );
   }
 
-    // Push Extend Domain
-    pushExtendDomain(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pushextenddomain/${id}`;
+    // Push Extend Webhosting
+    pushExtendWebhosting(id, data): Observable<any> {
+      const API_URL = `${this.endpoint}/pushextendwebhosting/${id}`;
       return this.http.put(API_URL, data, { headers: this.headers })
         .pipe(
           catchError(this.errorMgmt)
         );
     }
 
-    // Pull Extend Domain
-    pullExtendDomain(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pullextenddomain/${id}`;
+    // Pull Extend Webhosting
+    pullExtendWebhosting(id, data): Observable<any> {
+      const API_URL = `${this.endpoint}/pullextendwebhosting/${id}`;
       return this.http.put(API_URL, data, { headers: this.headers })
         .pipe(
           catchError(this.errorMgmt)
         );
     }
 
-    // Update Status Domain
-    updateStatusDomain(id, data): Observable<any> {
+    // Update Status Webhosting
+    updateStatusWebhosting(id, data): Observable<any> {
       const API_URL = `${this.endpoint}/updatestatus/${id}`;
       return this.http.put(API_URL, data, { headers: this.headers })
         .pipe(
@@ -66,8 +66,8 @@ export class DomainService {
         );
     }
 
-  // Update Domain
-  UpdateDomain(id, data): Observable<any> {
+  // Update Webhosting
+  UpdateWebhosting(id, data): Observable<any> {
     const API_URL = `${this.endpoint}/update/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
@@ -75,8 +75,8 @@ export class DomainService {
       );
   }
 
-  // Delete Domain
-  DeleteDomain(id): Observable<any> {
+  // Delete Webhosting
+  DeleteWebhosting(id): Observable<any> {
     const API_URL = `${this.endpoint}/delete/${id}`;
     return this.http.delete(API_URL)
       .pipe(

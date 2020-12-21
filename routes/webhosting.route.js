@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-const domainRoute = express.Router();
+const webhostingRoute = express.Router();
 
-// Domain model
-let Domain = require('../models/Domain');
+// Webhosting model
+let Webhosting = require('../models/Webhosting');
 
-// Add Domain
-domainRoute.route('/create').post((req, res, next) => {
-  Domain.create(req.body, (error, data) => {
+// Add Webhosting
+webhostingRoute.route('/create').post((req, res, next) => {
+  Webhosting.create(req.body, (error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -17,8 +17,8 @@ domainRoute.route('/create').post((req, res, next) => {
 });
 
 // Get All Domains
-domainRoute.route('/').get((req, res) => {
-  Domain.find((error, data) => {
+webhostingRoute.route('/').get((req, res) => {
+  Webhosting.find((error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -28,8 +28,8 @@ domainRoute.route('/').get((req, res) => {
 })
 
 // Get All Domains Activated
-domainRoute.route('/activateddomains').get((req, res) => {
-  Domain.find({ status: 1 }, (error, data) => {
+webhostingRoute.route('/activatedwebhostings').get((req, res) => {
+  Webhosting.find({ status: 1 }, (error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -38,9 +38,9 @@ domainRoute.route('/activateddomains').get((req, res) => {
   })
 })
 
-// Get single Domain
-domainRoute.route('/read/:id').get((req, res) => {
-  Domain.findById(req.params.id, (error, data) => {
+// Get single Webhosting
+webhostingRoute.route('/read/:id').get((req, res) => {
+  Webhosting.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -49,9 +49,9 @@ domainRoute.route('/read/:id').get((req, res) => {
   })
 })
 
-// Update Domain
-domainRoute.route('/update/:id').put((req, res, next) => {
-  Domain.findByIdAndUpdate(req.params.id, {
+// Update Webhosting
+webhostingRoute.route('/update/:id').put((req, res, next) => {
+  Webhosting.findByIdAndUpdate(req.params.id, {
     $set: req.body
   }, (error, data) => {
     if (error) {
@@ -64,9 +64,9 @@ domainRoute.route('/update/:id').put((req, res, next) => {
   })
 })
 
-// Push Extend Domain
-domainRoute.route('/pushextenddomain/:id').put((req, res, next) => {
-  Domain.findByIdAndUpdate(
+// Push Extend Webhosting
+webhostingRoute.route('/pushextendwebhosting/:id').put((req, res, next) => {
+  Webhosting.findByIdAndUpdate(
     req.params.id, {
     $set: { status: req.body.status },
     $push: { "extend": req.body.extend },
@@ -82,9 +82,9 @@ domainRoute.route('/pushextenddomain/:id').put((req, res, next) => {
   })
 })
 
-// Pull Extend Domain
-domainRoute.route('/pullextenddomain/:id').put((req, res, next) => {
-  Domain.findByIdAndUpdate(
+// Pull Extend Webhosting
+webhostingRoute.route('/pullextendwebhosting/:id').put((req, res, next) => {
+  Webhosting.findByIdAndUpdate(
     req.params.id, {
     $pull: { "extend": { _id : req.body._id } },
 
@@ -99,9 +99,9 @@ domainRoute.route('/pullextenddomain/:id').put((req, res, next) => {
   })
 })
 
-// Update Status Domain
-domainRoute.route('/updatestatus/:id').put((req, res, next) => {
-  Domain.findByIdAndUpdate(
+// Update Status Webhosting
+webhostingRoute.route('/updatestatus/:id').put((req, res, next) => {
+  Webhosting.findByIdAndUpdate(
     req.params.id, {
     $set: req.body,
   }, (error, data) => {
@@ -117,8 +117,8 @@ domainRoute.route('/updatestatus/:id').put((req, res, next) => {
 
 
 // Delete Invoice
-domainRoute.route('/delete/:id').delete((req, res, next) => {
-  Domain.findByIdAndRemove(req.params.id, (error, data) => {
+webhostingRoute.route('/delete/:id').delete((req, res, next) => {
+  Webhosting.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);
     } else {
@@ -130,4 +130,4 @@ domainRoute.route('/delete/:id').delete((req, res, next) => {
 })
 
 
-module.exports = domainRoute;
+module.exports = webhostingRoute;

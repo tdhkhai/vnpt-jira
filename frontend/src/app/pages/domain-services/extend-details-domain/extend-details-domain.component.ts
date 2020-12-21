@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { IDCService } from 'src/app/core/services/idc.service';
+import { DomainService } from 'src/app/core/services/domain.service';
 
 @Component({
-  selector: 'app-extend-details',
-  templateUrl: './extend-details.component.html',
-  styleUrls: ['./extend-details.component.scss']
+  selector: 'app-extend-details-domain',
+  templateUrl: './extend-details-domain.component.html',
+  styleUrls: ['./extend-details-domain.component.scss']
 })
-export class ExtendDetailsComponent implements OnInit {
+export class ExtendDetailsDomainComponent implements OnInit {
+
   extendForm: FormGroup;
   incomeDate: Date;
   fromDate: Date;
@@ -18,7 +19,7 @@ export class ExtendDetailsComponent implements OnInit {
   constructor(
     private notification: NzNotificationService,
     private modal: NzModalRef,
-    private idcAPI: IDCService
+    private domainAPI: DomainService
   ) { this.setForm(); }
 
   ngOnInit(): void {
@@ -49,7 +50,8 @@ export class ExtendDetailsComponent implements OnInit {
       status: '2',
       extend: this.extendForm.value
     };
-    this.idcAPI.pushExtendIDC(this.selectedId, tmp).subscribe(
+
+    this.domainAPI.pushExtendDomain(this.selectedId, tmp).subscribe(
       (res) => {
         this.close();
         this.notification.create('success', 'Thành công', 'Bạn đã gia hạn thành công!');

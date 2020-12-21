@@ -1,9 +1,10 @@
 import { User } from './user';
 
-export interface Domain {
+export interface Webhosting {
   _id: string;
-  loaiDomain: string;
+  // loaiDomain: string;
   domain: string;
+  bundle: string;
   am: User;
   comTaxCode: string;
   comName: string;

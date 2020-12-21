@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import { UploadComponent } from '../../shared/upload/upload.component';
 import { AddDomainComponent } from '../add-domain/add-domain.component';
 import { EditDomainComponent } from '../edit-domain/edit-domain.component';
+import { ExtendDetailsDomainComponent } from '../extend-details-domain/extend-details-domain.component';
 
 @Component({
   selector: 'app-statistical-domain',
@@ -21,6 +22,7 @@ export class StatisticalDomainComponent implements OnInit {
   selectedId: string;
   searchValue = '';
   visible = false;
+  expandSet = new Set<string>();
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
@@ -42,6 +44,7 @@ export class StatisticalDomainComponent implements OnInit {
       }
     );
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
     // let filterValueLower = filterValue.toLowerCase();
@@ -59,8 +62,44 @@ export class StatisticalDomainComponent implements OnInit {
     }
   }
 
+  onExpandChange(id: string, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
+  openExtendDetails(selectedId: any) {
+    const modal = this.modalService.create({
+      nzTitle: 'THÔNG TIN GIA HẠN DỊCH VỤ',
+      nzContent: ExtendDetailsDomainComponent,
+      nzWidth: 800,
+      nzBodyStyle: {
+        height: '320px'
+      },
+    });
+    modal.componentInstance.selectedId = selectedId;
+    modal.afterClose.subscribe(res => {
+      this.getAllDomains();
+    });
+  }
+
+  deleteExtend(id: string, data: string) {
+    this.domainAPI.pullExtendDomain(id, {_id: data}).subscribe(
+      (res) => {
+        this.getAllDomains();
+        this.notification.create('success', 'Thành công', 'Bạn đã xóa gia hạn thành công!');
+      }, (error) => {
+        console.log(error);
+        this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
+      }
+    );
+  }
+
+
   exportExcel() {
-    this.excelToFile.exportExcel(this.listOfData, 'danh_sach_1800_1900');
+    this.excelToFile.exportExcel(this.listOfData, 'danh_sach_ten_mien');
   }
 
   importExcel() {
@@ -119,7 +158,7 @@ export class StatisticalDomainComponent implements OnInit {
 
   showCreate() {
     const modal = this.modalService.create({
-      nzTitle: 'KHÁCH HÀNG ĐĂNG KÝ DỊCH VỤ HẠ TẦNG LƯU TRỮ',
+      nzTitle: 'KHÁCH HÀNG ĐĂNG KÝ DỊCH VỤ TÊN MIỀN',
       nzContent: AddDomainComponent,
       nzWidth: 800,
       nzBodyStyle: {
@@ -135,7 +174,7 @@ export class StatisticalDomainComponent implements OnInit {
 
   editModal(selectedId: any) {
     const modal = this.modalService.create({
-      nzTitle: 'CHỈNH SỬA KHÁCH HÀNG ĐĂNG KÝ DỊCH VỤ HẠ TẦNG LƯU TRỮ',
+      nzTitle: 'CHỈNH SỬA KHÁCH HÀNG ĐĂNG KÝ DỊCH VỤ TÊN MIỀN',
       nzContent: EditDomainComponent,
       nzWidth: 800,
       nzBodyStyle: {

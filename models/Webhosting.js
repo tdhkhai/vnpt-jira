@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define collection and schema
-let Domain = new Schema({
+let Webhosting = new Schema({
     id: {
         type: String
     },
     status: String,
-    loaiDomain: String,
+    bundle: String,
     am: {
         _id: String,
         userCode: String,
@@ -43,7 +43,7 @@ let Domain = new Schema({
         type: String
     },
 }, {
-    collection: 'domain'
+    collection: 'webhosting'
 })
 
-module.exports = mongoose.model('Domain', Domain)
+module.exports = mongoose.model('Webhosting', Webhosting)

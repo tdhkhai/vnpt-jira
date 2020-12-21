@@ -9,6 +9,7 @@ import { StatisticalDomainComponent } from './statistical-domain/statistical-dom
 import { OverviewDomainComponent } from './overview-domain/overview-domain.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
 import { EditDomainComponent } from './edit-domain/edit-domain.component';
+import { ExtendDetailsDomainComponent } from './extend-details-domain/extend-details-domain.component';
 
 @NgModule({
   imports: [
@@ -24,12 +25,14 @@ import { EditDomainComponent } from './edit-domain/edit-domain.component';
     OverviewDomainComponent,
     AddDomainComponent,
     EditDomainComponent,
+    ExtendDetailsDomainComponent
   ],
   exports: [
     StatisticalDomainComponent,
     OverviewDomainComponent,
     AddDomainComponent,
     EditDomainComponent,
+    ExtendDetailsDomainComponent
   ],
   providers: [
   ]

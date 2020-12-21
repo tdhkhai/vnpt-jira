@@ -9,6 +9,7 @@ import { OverviewWebhostingComponent } from './overview-webhosting/overview-webh
 import { StatisticalWebhostingComponent } from './statistical-webhosting/statistical-webhosting.component';
 import { AddWebhostingComponent } from './add-webhosting/add-webhosting.component';
 import { EditWebhostingComponent } from './edit-webhosting/edit-webhosting.component';
+import { ExtendDetailsWebhostingComponent } from './extend-details-webhosting/extend-details-webhosting.component';
 
 @NgModule({
   imports: [
@@ -24,12 +25,14 @@ import { EditWebhostingComponent } from './edit-webhosting/edit-webhosting.compo
     StatisticalWebhostingComponent,
     AddWebhostingComponent,
     EditWebhostingComponent,
+    ExtendDetailsWebhostingComponent
   ],
   exports: [
     OverviewWebhostingComponent,
     StatisticalWebhostingComponent,
     AddWebhostingComponent,
     EditWebhostingComponent,
+    ExtendDetailsWebhostingComponent
   ],
   providers: [
   ]
