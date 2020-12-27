@@ -38,6 +38,7 @@ export class EditDausoComponent implements OnInit {
           this.dausoForm = new FormGroup({
             loaiDauso: new FormControl(data.loaiDauso),
             dauso: new FormControl(data.dauso),
+            status: new FormControl(data.status),
             am: new FormControl(data.am),
             comTaxCode: new FormControl(data.comTaxCode),
             comName: new FormControl(data.comName),
@@ -45,7 +46,7 @@ export class EditDausoComponent implements OnInit {
             cancelDate: new FormControl(data.cancelDate),
             remark: new FormControl(data.remark),
           });
-          console.log(this.dausoForm.value);
+          // console.log(this.dausoForm.value);
 
         }
       );

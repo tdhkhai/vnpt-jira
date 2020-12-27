@@ -39,6 +39,19 @@ export class IDCService {
       );
   }
 
+  // Get Count IDC
+  GetCountIDC(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+
   // Update IDC
   UpdateIDC(id, data): Observable<any> {
     const API_URL = `${this.endpoint}/update/${id}`;

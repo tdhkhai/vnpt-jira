@@ -77,5 +77,102 @@ dausoRoute.route('/delete/:id').delete((req, res, next) => {
   })
 })
 
+// Count cusomer
+dausoRoute.route('/count-customers').get((req, res, next) => {
+  Dauso.aggregate([
+    // Cách 1
+    // {
+    //   "$group": {
+    //     "_id": {
+    //       "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+    //       "status": "$status"
+    //     },
+    //     "count": { "$sum": 1 }
+    //   },
+    // },
+    // {
+    //   "$group": {
+    //     "_id": "$_id.year",
+    //     "counts": {
+    //       "$push": {
+    //         "k": "$_id.status",
+    //         "v": "$count"
+    //       }
+    //     }
+    //   }
+    // },
+    // {
+    //   "$addFields": {
+    //     "counts": {
+    //       "$setUnion": [
+    //         "$counts", [
+    //           {
+    //             "k": "group",
+    //             "v": "$_id"
+    //           }
+    //         ]
+    //       ]
+    //     }
+    //   }
+    // },
+    // {
+    //   "$replaceRoot": {
+    //     "newRoot": { "$arrayToObject": "$counts" }
+    //   }
+    // }
+
+    // Cách 2:
+    // {
+    //   "$group": {
+    //     "_id": {
+    //       "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+    //       "status": "$status"
+    //     },
+    //     "count": { "$sum": 1 }
+    //   },
+    // },
+    // {
+    //   "$group": {
+    //     "_id": "$_id.year",
+    //     "count": { "$mergeObjects": { "$arrayToObject": [[["$_id.status", "$count"]]] } }
+    //   }
+    // }
+
+    // Cách 3:
+    {
+      "$group": {
+        "_id": {
+          "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+        },
+        "countAll": {
+          "$sum": 1
+        },
+        "countActived": {
+          "$sum": { "$cond": [{ $eq: ["$status", "1"] }, 1, 0] }
+        },
+        "countExtend": {
+          "$sum": { "$cond": [{ $eq: ["$status", "2"] }, 1, 0] }
+        },
+        "countCanceled": {
+          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        },
+        "countNeedExtend": {
+          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        }
+      },
+    }
+  ], (error, data) => {
+    if (error) {
+      
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
+
 
 module.exports = dausoRoute;

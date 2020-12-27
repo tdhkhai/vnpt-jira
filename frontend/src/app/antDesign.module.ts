@@ -28,6 +28,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzPaginationModule,
     NzBadgeModule,
     NzSpinModule,
+    NzTimelineModule,
   ],
   exports: [
     NzIconModule,
@@ -91,6 +93,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzPaginationModule,
     NzBadgeModule,
     NzSpinModule,
+    NzTimelineModule,
   ]
 })
 export class AntDesignModule { }

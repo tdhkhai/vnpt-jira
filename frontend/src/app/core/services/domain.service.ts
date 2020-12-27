@@ -39,32 +39,44 @@ export class DomainService {
       );
   }
 
-    // Push Extend Domain
-    pushExtendDomain(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pushextenddomain/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Get Count Domain
+  GetCountDomain(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
 
-    // Pull Extend Domain
-    pullExtendDomain(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pullextenddomain/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Push Extend Domain
+  pushExtendDomain(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/pushextenddomain/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
 
-    // Update Status Domain
-    updateStatusDomain(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/updatestatus/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Pull Extend Domain
+  pullExtendDomain(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/pullextenddomain/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // Update Status Domain
+  updateStatusDomain(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/updatestatus/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
 
   // Update Domain
   UpdateDomain(id, data): Observable<any> {

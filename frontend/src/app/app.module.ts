@@ -38,7 +38,7 @@ registerLocaleData(en);
     MatModule,
     HighlightModule,
     ChartsModule,
-    PrimengModule
+    PrimengModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

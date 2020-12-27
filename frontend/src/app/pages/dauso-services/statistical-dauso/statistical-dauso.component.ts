@@ -9,15 +9,14 @@ import { EditDausoComponent } from '../edit-dauso/edit-dauso.component';
 import { Dauso } from 'src/app/core/models/dauso';
 import { UploadComponent } from '../../shared/upload/upload.component';
 
-
 @Component({
   selector: 'app-statistical-dauso',
   templateUrl: './statistical-dauso.component.html',
   styleUrls: ['./statistical-dauso.component.scss']
 })
 export class StatisticalDausoComponent implements OnInit {
-  listOfData: any = [];
-  listOfAllData: any = [];
+  listOfData: Dauso[] = [];
+  listOfAllData: Dauso[] = [];
   loading = false;
   selectedId: string;
   searchValue = '';

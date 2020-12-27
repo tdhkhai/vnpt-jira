@@ -34,6 +34,18 @@ export class InvoiceService {
     return this.http.get(`${this.endpoint}/activatedInvoice`);
   }
 
+  // Get Count Invoice
+  GetCountInvoice(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
   // Get Invoice by Id
   GetInvoice(id): Observable<any> {
     const API_URL = `${this.endpoint}/read/${id}`;

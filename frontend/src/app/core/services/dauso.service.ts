@@ -24,7 +24,19 @@ export class DausoService {
 
   // Get all Dauso
   GetAllDausos() {
-    return this.http.get(`${this.endpoint}`);
+    return this.http.get<Dauso[]>(`${this.endpoint}`);
+  }
+
+   // Get Count Dau so
+   GetCountDauso(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
   }
 
   // Get Dauso by Id

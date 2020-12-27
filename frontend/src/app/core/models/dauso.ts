@@ -4,6 +4,7 @@ export interface Dauso {
   _id: string;
   loaiDauso: string;
   dauso: string;
+  status: string;
   am: User;
   comTaxCode: string;
   comName: string;

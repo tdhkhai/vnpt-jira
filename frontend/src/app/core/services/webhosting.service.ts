@@ -39,32 +39,44 @@ export class WebhostingService {
       );
   }
 
-    // Push Extend Webhosting
-    pushExtendWebhosting(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pushextendwebhosting/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Get Count Webhosting
+  GetCountWebhosting(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
 
-    // Pull Extend Webhosting
-    pullExtendWebhosting(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/pullextendwebhosting/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Push Extend Webhosting
+  pushExtendWebhosting(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/pushextendwebhosting/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
 
-    // Update Status Webhosting
-    updateStatusWebhosting(id, data): Observable<any> {
-      const API_URL = `${this.endpoint}/updatestatus/${id}`;
-      return this.http.put(API_URL, data, { headers: this.headers })
-        .pipe(
-          catchError(this.errorMgmt)
-        );
-    }
+  // Pull Extend Webhosting
+  pullExtendWebhosting(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/pullextendwebhosting/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // Update Status Webhosting
+  updateStatusWebhosting(id, data): Observable<any> {
+    const API_URL = `${this.endpoint}/updatestatus/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      );
+  }
 
   // Update Webhosting
   UpdateWebhosting(id, data): Observable<any> {

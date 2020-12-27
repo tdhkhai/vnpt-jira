@@ -129,5 +129,42 @@ idcRoute.route('/delete/:id').delete((req, res, next) => {
   })
 })
 
+// Count cusomer
+idcRoute.route('/count-customers').get((req, res, next) => {
+  IDC.aggregate([
+    {
+      "$group": {
+        "_id": {
+          "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+        },
+        "countAll": {
+          "$sum": 1
+        },
+        "countActived": {
+          "$sum": { "$cond": [{ $eq: ["$status", "1"] }, 1, 0] }
+        },
+        "countExtend": {
+          "$sum": { "$cond": [{ $eq: ["$status", "2"] }, 1, 0] }
+        },
+        "countCanceled": {
+          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        },
+        "countNeedExtend": {
+          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        }
+      },
+    }
+  ], (error, data) => {
+    if (error) {
+      
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
 
 module.exports = idcRoute;

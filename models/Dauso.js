@@ -12,6 +12,7 @@ let Dauso = new Schema({
     dauso: {
         type: String
     },
+    status: String,
     am: {
         _id: String,
         userCode: String,
