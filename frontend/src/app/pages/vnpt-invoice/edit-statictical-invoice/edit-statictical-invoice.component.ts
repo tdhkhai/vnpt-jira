@@ -71,8 +71,7 @@ export class EditStaticticalInvoiceComponent implements OnInit {
           dateExtend: new FormControl(data.dateExtend),
           dateDelete: new FormControl(data.dateDelete),
           status: new FormControl(data.status),
-          unitCode: new FormControl(data.unitCode),
-          userName: new FormControl(data.userName),
+          am: new FormControl(data.am),
           comTaxCode: new FormControl(data.comTaxCode),
           comName: new FormControl(data.comName),
           amount: new FormControl(data.amount),
@@ -97,8 +96,7 @@ export class EditStaticticalInvoiceComponent implements OnInit {
       dateExtend: new FormControl(Date()),
       dateDelete: new FormControl(Date()),
       status: new FormControl(),
-      unitCode: new FormControl(),
-      userName: new FormControl(),
+      am: new FormControl(),
       comTaxCode: new FormControl(),
       comName: new FormControl(),
       amount: new FormControl(),
@@ -106,14 +104,6 @@ export class EditStaticticalInvoiceComponent implements OnInit {
       incomeDate: new FormControl()
     });
   }
-
-  // getInvoiceById() {
-  //   this.isSpinning = true;
-  //   this.invoiceAPI.GetInvoice(this.selectedId).subscribe(data => {
-  //     this.selectedData = data;
-  //     this.isSpinning = false;
-  //   });
-  // }
 
   getAllUnits() {
     this.unitAPI.GetUnitsActivated().subscribe(
@@ -163,6 +153,10 @@ export class EditStaticticalInvoiceComponent implements OnInit {
     }
   }
 
+  compareByOptionId(c1, c2) {
+    return c1 && c2 ? c1._id === c2._id : c1 === c2;
+  }
+
   close() {
     this.modal.destroy();
   }
@@ -196,18 +190,13 @@ export class EditStaticticalInvoiceComponent implements OnInit {
       this.invoiceForm.value.income = this.invoiceForm.value.amount * 300;
     }
 
-    this.invoiceForm.value.unitCode = this.invoiceForm.value.userName.unitCode;
-    this.invoiceForm.value.userName = this.invoiceForm.value.userName.userName;
-
-    console.log(this.invoiceForm.value);
-
-    // this.invoiceAPI.UpdateInvoice(this.invoiceForm.value, this.selectedId).subscribe(res => {
-    //   this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
-    //   this.modal.destroy();
-    // }, err => {
-    //   console.log(err);
-    //   this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
-    // });
+    this.invoiceAPI.UpdateInvoice(this.invoiceForm.value, this.selectedId).subscribe(res => {
+      this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
+      this.modal.destroy();
+    }, err => {
+      console.log(err);
+      this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
+    });
 
   }
 

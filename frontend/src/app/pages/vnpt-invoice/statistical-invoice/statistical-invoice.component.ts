@@ -31,15 +31,22 @@ export class StatisticalInvoiceComponent implements OnInit {
   searchValue = '';
   listOfCurrentPageData: any = [];
   isSpinning = false;
+
+  dateSelected: Date;
+  today: Date;
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
     private invoiceAPI: InvoiceService,
     private modalService: NzModalService,
-  ) { this.getAllInvoices(); }
+  ) {
+    this.dateSelected = new Date();
+    this.getAllInvoices();
+
+  }
 
   ngOnInit(): void {
-
+    this.onChange(this.dateSelected);
   }
 
   applyFilter(event: Event) {
@@ -54,7 +61,7 @@ export class StatisticalInvoiceComponent implements OnInit {
         (item: Invoice) =>
           item.comName.includes(filterValue) ||
           item.comTaxCode.includes(filterValue)
-          // item.userName.includes(filterValue)
+        // item.userName.includes(filterValue)
       );
     }
   }
@@ -118,6 +125,13 @@ export class StatisticalInvoiceComponent implements OnInit {
       element.incomeDate = moment(element.incomeDate).toISOString();
       element.comName = element.comName.toUpperCase();
 
+      element.am = {
+        unitCode: element.unitCode,
+        userName: element.userName
+      };
+
+      // console.log(element);
+
       this.invoiceAPI.AddInvoice(element).subscribe(res => {
         this.getAllInvoices();
         // this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');
@@ -140,6 +154,7 @@ export class StatisticalInvoiceComponent implements OnInit {
 
     modal.afterClose.subscribe(res => {
       this.getAllInvoices();
+      this.onChange(this.dateSelected);
     });
   }
 
@@ -155,6 +170,8 @@ export class StatisticalInvoiceComponent implements OnInit {
   }
 
   editModal(data: any) {
+    console.log(data);
+
     const modal = this.modalService.create({
       nzTitle: 'CHỈNH SỬA THÔNG TIN KHÁCH HÀNG HÓA ĐƠN ĐIỆN TỬ',
       nzContent: EditStaticticalInvoiceComponent,
@@ -189,6 +206,21 @@ export class StatisticalInvoiceComponent implements OnInit {
       this.infoSite1 = '[CHÍNH THỨC] ' + this.selectedData.comName;
       this.infoSite2 = this.selectedData.comTaxCode + '-cadmin.vnpt-invoice.com.vn/';
       this.infoSite3 = this.selectedData.comTaxCode + '_admin';
+    }
+  }
+
+  onChange(result: Date): void {
+    const tmp = result.getFullYear() + '-' + (result.getMonth()) + '-' + result.getDate();
+    const toDate = moment(tmp).endOf('month').format('YYYY-MM-DDT17:00:00.000') + 'Z';
+
+    if (result === null) {
+      this.listOfData = this.listOfAllData;
+    }
+    else {
+      this.listOfData = this.listOfAllData.filter(
+        (item: Invoice) =>
+          item.monthAction.toString() === toDate.toString()
+      );
     }
   }
 

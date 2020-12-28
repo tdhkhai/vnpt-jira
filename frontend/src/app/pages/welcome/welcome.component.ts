@@ -4,6 +4,7 @@ import { DomainService } from 'src/app/core/services/domain.service';
 import { IDCService } from 'src/app/core/services/idc.service';
 import { WebhostingService } from 'src/app/core/services/webhosting.service';
 import { MessageService } from 'primeng/api';
+import { InvoiceService } from 'src/app/core/services/invoice.service';
 
 @Component({
   selector: 'app-welcome',
@@ -32,38 +33,39 @@ export class WelcomeComponent implements OnInit {
   allCusActivedWebhosting = 0;
   allCusCanceledWebhosting = 0;
 
+  countInvoices: any;
+  allCusDemoInvoice = 0;
+  allCusGoliveInvoice = 0;
+  allCusExtendInvoice = 0;
   data: any;
   constructor(
     private dausoAPI: DausoService,
     private idcAPI: IDCService,
     private domainAPI: DomainService,
     private webhostingAPI: WebhostingService,
+    private invoiceAPI: InvoiceService,
     private messageService: MessageService
   ) {
-    this.data = {
-      labels: ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', 'Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', 'Tháng 10', 'Tháng 11', 'Tháng 12',],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#4bc0c0'
-        },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: '#565656'
-        }
-      ]
-    }
+
     this.getCountDauso();
     this.getCountDomain();
     this.getCountIDC();
     this.getCountWebhosting();
+    this.getCountInvoice();
   }
 
   ngOnInit() {
+  }
+
+  getCountInvoice() {
+    this.invoiceAPI.GetCountInvoice().subscribe((res) => {
+      this.countInvoices = res.msg;
+      this.countInvoices.forEach(element => {
+        this.allCusDemoInvoice += element.countDemo;
+        this.allCusGoliveInvoice += element.countGolive;
+        this.allCusExtendInvoice += element.countExtend;
+      });
+    });
   }
 
   getCountDauso() {

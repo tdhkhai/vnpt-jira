@@ -1,8 +1,10 @@
+import { User } from './user';
+
 export interface Invoice {
+  _id: string;
   status: string;
   monthAction: Date;
-  unitCode: string;
-  userName: string;
+  am: User;
   comTaxCode: string;
   comName: string;
   dateDemo: Date;

@@ -153,6 +153,11 @@ idcRoute.route('/count-customers').get((req, res, next) => {
           "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
         }
       },
+    },
+    {
+      "$sort" : {
+        "_id.year" : -1
+      }
     }
   ], (error, data) => {
     if (error) {

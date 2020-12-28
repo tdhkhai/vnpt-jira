@@ -69,8 +69,7 @@ export class AddStatisticalInvoiceComponent implements OnInit {
       dateExtend: new FormControl(Date()),
       dateDelete: new FormControl(Date()),
       status: new FormControl(),
-      unitCode: new FormControl(),
-      userName: new FormControl(),
+      am: new FormControl(),
       comTaxCode: new FormControl(),
       comName: new FormControl(),
       amount: new FormControl(),
@@ -160,10 +159,7 @@ export class AddStatisticalInvoiceComponent implements OnInit {
       this.invoiceForm.value.income = this.invoiceForm.value.amount * 300;
     }
 
-    this.invoiceForm.value.unitCode = this.invoiceForm.value.userName.unitCode;
-    this.invoiceForm.value.userName = this.invoiceForm.value.userName.userName;
-
-    console.log(this.invoiceForm.value);
+    // console.log(this.invoiceForm.value);
 
     this.invoiceAPI.AddInvoice(this.invoiceForm.value).subscribe(res => {
       this.notification.create('success', 'Thành công', 'Bạn đã lưu thành công!');

@@ -112,10 +112,10 @@
   </div> -->
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label nzRequired nzFor="UserName">AM</nz-form-label>
+          <nz-form-label nzRequired nzFor="AM">AM</nz-form-label>
           <nz-form-control nzHasFeedback [nzErrorTip]="'Vui lòng chọn AM phát triển'">
-            <nz-select nzAllowClear nzPlaceHolder="Chọn AM phát triển" formControlName="userName" id="UserName">
-              <nz-option [nzValue]="item.userName" *ngFor="let item of listOfUser" [nzLabel]="item.userName">
+            <nz-select [compareWith]="compareByOptionId" nzAllowClear nzPlaceHolder="Chọn AM phát triển" formControlName="am" id="AM">
+              <nz-option [nzValue]="item" *ngFor="let item of listOfUser" [nzLabel]="item.userName">
               </nz-option>
             </nz-select>
           </nz-form-control>

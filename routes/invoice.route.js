@@ -24,7 +24,7 @@ invoiceRoute.route('/').get((req, res) => {
     } else {
       res.json(data)
     }
-  })
+  }).sort({ monthAction: -1 })
 })
 
 // Get All Invoices Activated
@@ -36,6 +36,20 @@ invoiceRoute.route('/activatedinvoices').get((req, res) => {
       res.json(data)
     }
   })
+})
+
+// Get All Invoices By Date
+invoiceRoute.route('/getinvoicesbydate').get((req, res) => {
+  Invoice.find(
+    { status: 1 },
+
+    (error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
 })
 
 // Get single Invoice
@@ -400,35 +414,39 @@ invoiceRoute.route('/so-lieu-site-don-vi').post((req, res, next) => {
   })
 })
 
-
 // Count cusomer
 invoiceRoute.route('/count-customers').get((req, res, next) => {
   Invoice.aggregate([
     {
       "$group": {
         "_id": {
-          "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+          "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
         },
         "countAll": {
           "$sum": 1
         },
-        "countActived": {
-          "$sum": { "$cond": [{ $eq: ["$status", "1"] }, 1, 0] }
+        "countDemo": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Demo"] }, 1, 0] }
+        },
+        "countGolive": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Golive"] }, 1, 0] }
         },
         "countExtend": {
-          "$sum": { "$cond": [{ $eq: ["$status", "2"] }, 1, 0] }
+          "$sum": { "$cond": [{ $eq: ["$status", "Bo sung"] }, 1, 0] }
         },
-        "countCanceled": {
-          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
-        },
-        "countNeedExtend": {
-          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        "countDelete": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Delete"] }, 1, 0] }
         }
       },
+    },
+    {
+      "$sort" : {
+        "_id.year" : -1
+      }
     }
   ], (error, data) => {
     if (error) {
-      
+
       return next(error);
     } else {
       res.status(200).json({

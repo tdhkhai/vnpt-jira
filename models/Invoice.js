@@ -12,11 +12,11 @@ let Invoice = new Schema({
     monthAction:{
         type: Date
     },
-    unitCode:{
-        type: String
-    },
-    userName:{
-        type: String
+    am: {
+        _id: String,
+        userCode: String,
+        unitCode: String,
+        userName: String,
     },
     comTaxCode:{
         type: String

@@ -34,6 +34,11 @@ export class InvoiceService {
     return this.http.get(`${this.endpoint}/activatedInvoice`);
   }
 
+    // Get all Invoices by Date
+    GetInvoicesByDate() {
+      return this.http.get(`${this.endpoint}/getinvoicesbydate`);
+    }
+
   // Get Count Invoice
   GetCountInvoice(): Observable<any> {
     const API_URL = `${this.endpoint}/count-customers`;

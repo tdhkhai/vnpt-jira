@@ -19,6 +19,7 @@
     </button>
   </nz-page-header-extra>
 </nz-page-header>
+
 <nz-form-item>
   <nz-form-label nzFor="filter">Lọc</nz-form-label>
   <nz-form-control nzHasFeedback>
@@ -32,6 +33,13 @@
     <i nz-icon nzType="search"></i>
   </button>
 </ng-template>
+
+<nz-form-item>
+  <nz-form-label nzFor="filter">Chọn tháng để xem</nz-form-label>
+  <nz-form-control nzHasFeedback>
+    <nz-date-picker nzMode="month" [(ngModel)]="dateSelected" (ngModelChange)="onChange($event)" nzFormat="MM/yyyy"></nz-date-picker>
+  </nz-form-control>
+</nz-form-item>
 
 <ng-template #totalTemplate>Tổng cộng {{ listOfData.length }}</ng-template>
 <nz-spin [nzSpinning]="loading">
@@ -81,8 +89,8 @@
         </td>
         <td nzAlign="center">{{ data.monthAction | date: "MM/yyyy" }}</td>
         <td nzAlign="center">
-          <span nz-tooltip nzTooltipTitle="{{ data.unitCode }}">{{
-            data.userName
+          <span nz-tooltip nzTooltipTitle="{{ data.am.unitCode }}">{{
+            data.am.userName
             }}</span>
         </td>
         <td nzAlign="center">{{ data.comTaxCode }}</td>
