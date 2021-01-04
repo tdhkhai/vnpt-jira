@@ -46,7 +46,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let data of listOfData ; index as i">
+    <ng-container *ngFor="let data of headerTable.data ; index as i">
       <tr>
         <td [nzExpand]="expandSet.has(data._id)" (nzExpandChange)="onExpandChange(data._id, $event)"></td>
         <td nzAlign="center">{{ i+1 }}</td>

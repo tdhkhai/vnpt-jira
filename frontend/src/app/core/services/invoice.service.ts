@@ -25,8 +25,8 @@ export class InvoiceService {
   }
 
   // Get all Invoices
-  GetInvoices() {
-    return this.http.get<Invoice[]>(`${this.endpoint}`);
+  GetInvoices(){
+    return this.http.get(`${this.endpoint}`);
   }
 
   // Get all Invoices
@@ -34,10 +34,10 @@ export class InvoiceService {
     return this.http.get(`${this.endpoint}/activatedInvoice`);
   }
 
-    // Get all Invoices by Date
-    GetInvoicesByDate() {
-      return this.http.get(`${this.endpoint}/getinvoicesbydate`);
-    }
+  // Get all Invoices by Date
+  GetInvoicesByDate() {
+    return this.http.get(`${this.endpoint}/getinvoicesbydate`);
+  }
 
   // Get Count Invoice
   GetCountInvoice(): Observable<any> {
@@ -50,6 +50,43 @@ export class InvoiceService {
         catchError(this.errorMgmt)
       );
   }
+
+  // Get Count Invoice for Line Chart
+  GetCountInvoiceForLineChart(): Observable<any> {
+    const API_URL = `${this.endpoint}/count-customers-line-chart`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // Doanh thu hàng tháng
+  GetMonthlyIncome(data): Observable<any> {
+    const API_URL = `${this.endpoint}/monthly-revenue`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // List Invoice by Status
+  GetListInvoicebyStatus(data): Observable<any> {
+    const API_URL = `${this.endpoint}/list-invoice-by-status`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
 
   // Get Invoice by Id
   GetInvoice(id): Observable<any> {

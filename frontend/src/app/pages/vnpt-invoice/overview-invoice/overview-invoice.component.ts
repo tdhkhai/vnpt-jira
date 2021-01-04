@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
+import * as moment from 'moment';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ListInvoiceByStatusComponent } from '../list-invoice-by-status/list-invoice-by-status.component';
+
+interface Person {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
 
 @Component({
   selector: 'app-overview-invoice',
@@ -9,57 +19,225 @@ import { InvoiceService } from 'src/app/core/services/invoice.service';
   providers: [MessageService]
 })
 export class OverviewInvoiceComponent implements OnInit {
-  listOfData: any[] = [];
+
   listOfAllData: any[] = [];
-  first = 0;
-  rows = 10;
-  data: any;
+  dataLineChart: any;
+  dataBarChart: any;
+  dateSelected: Date;
+
+  dataInvoice: any;
+
+  listOfData: Person[] = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park'
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+    ,
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+  ];
+
+
+  countInvoices: any;
+  allCusDemoInvoice = 0;
+  allCusGoliveInvoice = 0;
+  allCusExtendInvoice = 0;
+
   constructor(
     private invoiceAPI: InvoiceService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private modalService: NzModalService,
   ) {
-    this.data = {
-      labels: ['Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04', 'Tháng 05', 'Tháng 06', 'Tháng 07', 'Tháng 08', 'Tháng 09', 'Tháng 10', 'Tháng 11', 'Tháng 12',],
-      datasets: [
-        {
-          label: 'Demo',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#039eff'
-        },
-        {
-          label: 'Chính thức',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: '#32a11a'
-        },
-        {
-          label: 'Bổ sung',
-          data: [56, 75, 22, 44, 77, 88, 53],
-          fill: false,
-          borderColor: '#ff9203'
-        }
-      ]
-    };
-    this.getAllInvoices();
+    this.dateSelected = new Date();
+    this.getCountInvoice();
+    // this.getDataCustomersLineChart();
+    // this.getDataCustomersBarChart();
   }
 
   ngOnInit(): void {
   }
 
-
-
-  selectData(event) {
-    this.messageService.add({ severity: 'info', summary: 'Data Selected', 'detail': this.data.datasets[event.element._datasetIndex].data[event.element._index] });
+  getCountInvoice() {
+    this.invoiceAPI.GetCountInvoice().subscribe((res) => {
+      this.countInvoices = res.msg;
+      this.countInvoices.forEach(element => {
+        this.allCusDemoInvoice += element.countDemo;
+        this.allCusGoliveInvoice += element.countGolive;
+        this.allCusExtendInvoice += element.countExtend;
+      });
+    });
   }
 
-  getAllInvoices() {
-    this.invoiceAPI.GetInvoices().subscribe(
+
+  getDataCustomersLineChart() {
+    this.invoiceAPI.GetCountInvoiceForLineChart().subscribe(
       (data) => {
-        this.listOfAllData = data;
-        this.listOfData = data;
+        // this.dataInvoice = data.msg;
+        const tmp = data.msg;
+        const arrDemo = [];
+        const arrGolive = [];
+        const arrExtend = [];
+
+        tmp.forEach(element => {
+          arrDemo.push(element.countDemo);
+          arrGolive.push(element.countGolive);
+          arrExtend.push(element.countExtend);
+        });
+
+        this.dataLineChart = {
+          labels: ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11', 'T12'],
+          datasets: [
+            {
+              label: 'Demo',
+              data: arrDemo,
+              fill: false,
+              borderColor: '#039eff'
+            },
+            {
+              label: 'Chính thức',
+              data: arrGolive,
+              fill: false,
+              borderColor: '#32a11a'
+            },
+            {
+              label: 'Bổ sung',
+              data: arrExtend,
+              fill: false,
+              borderColor: '#ff9203'
+            }
+          ]
+        };
+
+
+      });
+  }
+
+  getDataCustomersBarChart() {
+    const pl = {
+      typeOfIncomeNew: 'Mới',
+      typeOfIncomeExt: 'GH',
+      year: '2020'
+    };
+    const arrNewIncome = [];
+    const arrExtendIncome = [];
+
+    this.invoiceAPI.GetMonthlyIncome(pl).subscribe(
+      (data) => {
+        const tmp = data.msg;
+        tmp.forEach(element => {
+          if (element._id.typeOfIncome === 'Mới') {
+            arrNewIncome.push(element.sum);
+          } else {
+            arrExtendIncome.push(element.sum);
+          }
+        });
+
+        this.dataBarChart = {
+          labels: ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11', 'T12',],
+          datasets: [
+            {
+              label: 'Doanh thu Mới',
+              backgroundColor: '#42A5F5',
+              borderColor: '#1E88E5',
+              data: arrNewIncome
+            },
+            {
+              label: 'Doanh thu Gia hạn',
+              backgroundColor: '#9CCC65',
+              borderColor: '#7CB342',
+              data: arrExtendIncome
+            }
+          ]
+        };
       }
     );
+
   }
 
+  onChange(result: Date): void {
+    const tmp = result.getFullYear() + '-' + (result.getMonth()) + '-' + result.getDate();
+    const toDate = moment(tmp).endOf('month').format('YYYY-MM-DDT17:00:00.000') + 'Z';
+  }
+
+  viewListByStatus(year: string, status: string) {
+    const modal = this.modalService.create({
+      nzTitle: 'DANH SÁCH KHÁCH HÀNG ' + status.toUpperCase() + ' TRONG NĂM ' + year,
+      nzContent: ListInvoiceByStatusComponent,
+      nzWidth: 1000,
+      nzBodyStyle: {
+        // height: '550px'
+      },
+    });
+
+    modal.componentInstance.yearSelected = year;
+    modal.componentInstance.statusSelected = status;
+
+  }
 }

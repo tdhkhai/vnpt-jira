@@ -23,8 +23,8 @@ export class StatisticalInvoiceComponent implements OnInit {
   infoSite2: string;
   infoSite3: string;
   fileUpload: File;
-  listOfData: any[] = [];
-  listOfAllData: any[] = [];
+  listOfData: any = [];
+  listOfAllData: any = [];
   loading: boolean;
   isVisibleInfoSite = false;
   selectedData: any;
@@ -170,8 +170,6 @@ export class StatisticalInvoiceComponent implements OnInit {
   }
 
   editModal(data: any) {
-    console.log(data);
-
     const modal = this.modalService.create({
       nzTitle: 'CHỈNH SỬA THÔNG TIN KHÁCH HÀNG HÓA ĐƠN ĐIỆN TỬ',
       nzContent: EditStaticticalInvoiceComponent,

@@ -16,6 +16,8 @@ import { DataOfSitesComponent } from './data-of-sites/data-of-sites.component';
 import { EditStaticticalInvoiceComponent } from './edit-statictical-invoice/edit-statictical-invoice.component';
 import { OverviewInvoiceComponent } from './overview-invoice/overview-invoice.component';
 import { PrimengModule } from 'src/app/primeng.module';
+import { ChartsModule } from 'ng2-charts';
+import { ListInvoiceByStatusComponent } from './list-invoice-by-status/list-invoice-by-status.component';
 
 
 @NgModule({
@@ -27,7 +29,6 @@ import { PrimengModule } from 'src/app/primeng.module';
     FormsModule,
     ReactiveFormsModule,
     MatModule,
-    HighlightModule
   ],
   declarations: [
     BuildInvoiceExamplesComponent,
@@ -39,6 +40,7 @@ import { PrimengModule } from 'src/app/primeng.module';
     DataOfSitesComponent,
     EditStaticticalInvoiceComponent,
     OverviewInvoiceComponent,
+    ListInvoiceByStatusComponent,
   ],
   exports: [
     BuildInvoiceExamplesComponent,
@@ -50,6 +52,7 @@ import { PrimengModule } from 'src/app/primeng.module';
     IncomeYearInvoiceComponent,
     DataOfSitesComponent,
     OverviewInvoiceComponent,
+    ListInvoiceByStatusComponent,
   ],
   providers: [
   ]

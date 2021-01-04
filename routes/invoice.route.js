@@ -22,7 +22,7 @@ invoiceRoute.route('/').get((req, res) => {
     if (error) {
       return next(error)
     } else {
-      res.json(data)
+      res.status(200).json(data)
     }
   }).sort({ monthAction: -1 })
 })
@@ -440,8 +440,8 @@ invoiceRoute.route('/count-customers').get((req, res, next) => {
       },
     },
     {
-      "$sort" : {
-        "_id.year" : -1
+      "$sort": {
+        "_id.year": -1
       }
     }
   ], (error, data) => {
@@ -454,6 +454,209 @@ invoiceRoute.route('/count-customers').get((req, res, next) => {
       })
     }
   })
+})
+
+// Count Customer Line Chart
+invoiceRoute.route('/count-customers-line-chart').get((req, res, next) => {
+  Invoice.aggregate([
+    {
+      "$group": {
+        "_id": {
+          "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+          "month": { "$dateToString": { "date": "$monthAction", "format": "%Y-%m" } },
+        },
+        "countAll": {
+          "$sum": 1
+        },
+        "countDemo": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Demo"] }, 1, 0] }
+        },
+        "countGolive": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Golive"] }, 1, 0] }
+        },
+        "countExtend": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Bo sung"] }, 1, 0] }
+        },
+        "countDelete": {
+          "$sum": { "$cond": [{ $eq: ["$status", "Delete"] }, 1, 0] }
+        }
+      },
+    },
+    {
+      "$match": {
+        "_id.year": "2020"
+      }
+    },
+    {
+      "$sort": {
+        "_id.month": 1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
+// Count Customer Bar Chart
+invoiceRoute.route('/count-customers-bar-chart').get((req, res, next) => {
+  Invoice.aggregate([
+    {
+      "$group": {
+        "_id": {
+          "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+          "month": { "$dateToString": { "date": "$monthAction", "format": "%Y-%m" } },
+          "typeOfIncome": "$typeOfIncome"
+        },
+        "sum": {
+          "$sum": "$income"
+        }
+      },
+    },
+    {
+      "$match": {
+        "_id.year": "2020"
+      }
+    },
+    {
+      "$sort": {
+        "_id.month": 1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
+// Doanh thu hàng tháng
+invoiceRoute.route('/monthly-revenue').post((req, res, next) => {
+  Invoice.aggregate([
+    {
+      $facet: {
+        "new": [
+          {
+            "$group": {
+              "_id": {
+                "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+                "month": { "$dateToString": { "date": "$monthAction", "format": "%Y-%m" } },
+                "typeOfIncome": req.body.typeOfIncomeNew
+              },
+              "sum": {
+                "$sum": "$income"
+              }
+            },
+          },
+          {
+            "$match": {
+              "_id.year": req.body.year
+            }
+          },
+
+        ],
+        "ext": [
+          {
+            "$group": {
+              "_id": {
+                "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+                "month": { "$dateToString": { "date": "$monthAction", "format": "%Y-%m" } },
+                "typeOfIncome": req.body.typeOfIncomeExt
+              },
+              "sum": {
+                "$sum": "$income"
+              }
+            },
+          },
+          {
+            "$match": {
+              "_id.year": req.body.year
+            }
+          },
+
+        ]
+      }
+    },
+    // Ghep cac mang ket qua
+    {
+      $project: {
+        all: {
+          $concatArrays: ["$new", "$ext"]
+        }
+      }
+    },
+    // Tach thanh tung document
+    {
+      $unwind: "$all"
+    },
+    // Gom lai
+    {
+      $group: {
+        _id: {
+          year: "$all._id.year",
+          month: "$all._id.month",
+          typeOfIncome: "$all._id.typeOfIncome",
+        },
+        sum: {
+          $sum: "$all.sum"
+        }
+      }
+    },
+    {
+      $sort: {
+        "_id.month": 1,
+        "_id.typeOfIncome": 1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
+
+// List Invoice by Status
+invoiceRoute.route('/list-invoice-by-status').post((req, res, next) => {
+  Invoice.aggregate([
+    {
+      "$group": {
+        "_id": {
+          "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+        },
+        
+      },
+    },
+    {
+      "$sort": {
+        "_id.year": -1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  }) 
 })
 
 
