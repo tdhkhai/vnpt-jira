@@ -11,23 +11,20 @@ export class ListInvoiceByStatusComponent implements OnInit {
   yearSelected: string;
   statusSelected: string;
   listOfData: any = [];
-  loading = false;
+  loading = true;
+  payload: any;
   constructor(
     private excelToFile: ExcelToFileService,
     private invoiceAPI: InvoiceService,
   ) {
-    const payload = {
-      yearSelected: this.yearSelected,
-      statusSelected: this.statusSelected
-    };
-    invoiceAPI.GetListInvoicebyStatus(payload).subscribe((data) => {
-      this.listOfData = data;
-      console.log(this.listOfData);
 
-    });
   }
 
   ngOnInit(): void {
+    this.invoiceAPI.GetListInvoicebyStatus(this.payload).subscribe((data) => {
+      this.listOfData = data;
+      this.loading = false;
+    });
   }
 
   exportExcel() {

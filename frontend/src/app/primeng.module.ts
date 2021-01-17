@@ -7,7 +7,6 @@ import { MessageModule } from 'primeng/message';
 import { ChartModule } from 'primeng/chart';
 import { ToastModule } from 'primeng/toast';
 
-
 @NgModule({
   imports: [
     TableModule,
@@ -16,7 +15,7 @@ import { ToastModule } from 'primeng/toast';
     MessagesModule,
     MessageModule,
     ChartModule,
-    ToastModule
+    ToastModule,
   ],
   exports: [
     TableModule,
@@ -25,7 +24,7 @@ import { ToastModule } from 'primeng/toast';
     MessagesModule,
     MessageModule,
     ChartModule,
-    ToastModule
+    ToastModule,
   ]
 })
 export class PrimengModule { }

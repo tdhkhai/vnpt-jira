@@ -449,9 +449,7 @@ invoiceRoute.route('/count-customers').get((req, res, next) => {
 
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data
-      })
+      res.status(200).json(data)
     }
   })
 })
@@ -635,28 +633,28 @@ invoiceRoute.route('/monthly-revenue').post((req, res, next) => {
 invoiceRoute.route('/list-invoice-by-status').post((req, res, next) => {
   Invoice.aggregate([
     {
-      "$group": {
-        "_id": {
-          "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
-        },
-        
-      },
+      "$addFields": {
+        "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
+      }
+    },  
+    {
+      "$match": {
+        "status": req.body.status,
+        "year": req.body.year,
+      }
     },
     {
       "$sort": {
-        "_id.year": -1
+        "monthAction": 1
       }
     }
   ], (error, data) => {
     if (error) {
-
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data
-      })
+      res.status(200).json(data)
     }
-  }) 
+  })
 })
 
 

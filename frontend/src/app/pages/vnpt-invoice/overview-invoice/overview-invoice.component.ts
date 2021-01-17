@@ -117,8 +117,8 @@ export class OverviewInvoiceComponent implements OnInit {
   ) {
     this.dateSelected = new Date();
     this.getCountInvoice();
-    // this.getDataCustomersLineChart();
-    // this.getDataCustomersBarChart();
+    this.getDataCustomersLineChart();
+    this.getDataCustomersBarChart();
   }
 
   ngOnInit(): void {
@@ -227,17 +227,22 @@ export class OverviewInvoiceComponent implements OnInit {
   }
 
   viewListByStatus(year: string, status: string) {
+    const payload = {
+      year: year,
+      status: status
+    };
+
+    console.log(payload);
     const modal = this.modalService.create({
       nzTitle: 'DANH SÁCH KHÁCH HÀNG ' + status.toUpperCase() + ' TRONG NĂM ' + year,
       nzContent: ListInvoiceByStatusComponent,
-      nzWidth: 1000,
+      nzWidth: 1560,
       nzBodyStyle: {
         // height: '550px'
       },
     });
 
-    modal.componentInstance.yearSelected = year;
-    modal.componentInstance.statusSelected = status;
+    modal.componentInstance.payload = payload;
 
   }
 }

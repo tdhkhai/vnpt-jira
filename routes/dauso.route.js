@@ -171,9 +171,7 @@ dausoRoute.route('/count-customers').get((req, res, next) => {
       
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data
-      })
+      res.status(200).json(data)
     }
   })
 })

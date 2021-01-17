@@ -8,7 +8,7 @@ import { Domain } from '../models/domain';
   providedIn: 'root'
 })
 export class DomainService {
-  endpoint = 'http://localhost:4000/api/webhosting';
+  endpoint = 'http://localhost:4000/api/domain';
   // endpoint = 'api/dau-so';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }

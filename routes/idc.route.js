@@ -86,7 +86,7 @@ idcRoute.route('/pushextendidc/:id').put((req, res, next) => {
 idcRoute.route('/pullextendidc/:id').put((req, res, next) => {
   IDC.findByIdAndUpdate(
     req.params.id, {
-    $pull: { "extend": { _id : req.body._id } },
+    $pull: { "extend": { _id: req.body._id } },
 
   }, (error, data) => {
     if (error) {
@@ -136,6 +136,7 @@ idcRoute.route('/count-customers').get((req, res, next) => {
       "$group": {
         "_id": {
           "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } },
+
         },
         "countAll": {
           "$sum": 1
@@ -155,18 +156,17 @@ idcRoute.route('/count-customers').get((req, res, next) => {
       },
     },
     {
-      "$sort" : {
-        "_id.year" : -1
+      "$sort": {
+        "_id.year": -1
       }
     }
+
   ], (error, data) => {
     if (error) {
-      
+
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data
-      })
+      res.status(200).json(data)
     }
   })
 })

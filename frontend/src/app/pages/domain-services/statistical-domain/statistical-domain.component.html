@@ -56,7 +56,8 @@
         <td nzAlign="center" *ngIf="data.status == '2'">Gia hạn</td>
         <td nzAlign="center" *ngIf="data.status == '3'" nz-tooltip
           nzTooltipTitle="{{data.cancelDate | date:'dd/MM/yyyy'}}">Thanh lý</td>
-        <td nzAlign="center" nz-tooltip nzTooltipTitle="Gói: {{data.bundle}}">{{data.loaiDomain}}</td>
+        <td nzAlign="center" *ngIf="data.loaiDomain == 'VN'">Việt Nam</td>
+        <td nzAlign="center" *ngIf="data.loaiDomain == 'QT'">Quốc tế</td>
         <td nzAlign="center">{{data.domain}}</td>
         <td nzAlign="center">{{data.am.unitCode}}</td>
         <td>{{data.am.userName}}</td>

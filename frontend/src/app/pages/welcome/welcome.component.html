@@ -103,7 +103,7 @@
     <nz-card nzTitle="Dịch vụ Hạ tầng lưu trữ">
       <div nz-row [nzGutter]="24">
         <div nz-col class="gutter-row" [nzSpan]="6">
-          <nz-statistic [nzValue]="allCusActivedIDC" [nzTitle]="'Tổng số khách hàng'" [nzPrefix]="prefixTplOne"
+          <nz-statistic [nzValue]="allCusIDC" [nzTitle]="'Tổng số khách hàng'" [nzPrefix]="prefixTplOne"
             [nzSuffix]="'khách hàng'" [nzValueStyle]="{ color: '#3F8600' }">
           </nz-statistic>
           <ng-template #prefixTplOne><i nz-icon nzType="arrow-up"></i></ng-template>
@@ -175,7 +175,7 @@
                 <td nzAlign="center">{{data.countAll}}</td>
                 <td nzAlign="center">{{data.countActived}}</td>
                 <td nzAlign="center">{{data.countCanceled}}</td>
-                <td nzAlign="center"></td>
+                <td nzAlign="center">{{data.countCusExpired}}</td>
               </tr>
             </tbody>
           </nz-table>

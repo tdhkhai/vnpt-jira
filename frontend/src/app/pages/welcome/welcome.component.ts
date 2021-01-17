@@ -26,7 +26,7 @@ export class WelcomeComponent implements OnInit {
   allCusCanceledDomain = 0;
 
   countIDC: any;
-  allCusActivedIDC = 0;
+  allCusIDC = 0;
   allCusCanceledIDC = 0;
 
   countWebhosting: any;
@@ -59,7 +59,7 @@ export class WelcomeComponent implements OnInit {
 
   getCountInvoice() {
     this.invoiceAPI.GetCountInvoice().subscribe((res) => {
-      this.countInvoices = res.msg;
+      this.countInvoices = res;
       this.countInvoices.forEach(element => {
         this.allCusDemoInvoice += element.countDemo;
         this.allCusGoliveInvoice += element.countGolive;
@@ -70,7 +70,7 @@ export class WelcomeComponent implements OnInit {
 
   getCountDauso() {
     this.dausoAPI.GetCountDauso().subscribe((res) => {
-      this.countDauso = res.msg;
+      this.countDauso = res;
       this.countDauso.forEach(element => {
         this.allCusActivedDauso += element.countActived;
         this.allCusCanceledDauso += element.countCanceled;
@@ -80,7 +80,7 @@ export class WelcomeComponent implements OnInit {
 
   getCountDomain() {
     this.domainAPI.GetCountDomain().subscribe((res) => {
-      this.countDomain = res.msg;
+      this.countDomain = res;
       this.countDomain.forEach(element => {
         this.allCusActivedDomain += element.countActived;
         this.allCusCanceledDomain += element.countCanceled;
@@ -90,9 +90,9 @@ export class WelcomeComponent implements OnInit {
 
   getCountIDC() {
     this.idcAPI.GetCountIDC().subscribe((res) => {
-      this.countIDC = res.msg;
+      this.countIDC = res;
       this.countIDC.forEach(element => {
-        this.allCusActivedIDC += element.countActived;
+        this.allCusIDC += element.countAll;
         this.allCusCanceledIDC += element.countCanceled;
       });
     });
@@ -100,7 +100,7 @@ export class WelcomeComponent implements OnInit {
 
   getCountWebhosting() {
     this.webhostingAPI.GetCountWebhosting().subscribe((res) => {
-      this.countWebhosting = res.msg;
+      this.countWebhosting = res;
       this.countWebhosting.forEach(element => {
         this.allCusActivedWebhosting += element.countActived;
         this.allCusCanceledWebhosting += element.countCanceled;

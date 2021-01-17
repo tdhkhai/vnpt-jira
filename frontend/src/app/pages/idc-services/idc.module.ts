@@ -18,7 +18,7 @@ import { ExtendDetailsComponent } from './extend-details/extend-details.componen
     FormsModule,
     ReactiveFormsModule,
     MatModule,
-    IDCRoutingModule
+    IDCRoutingModule,
   ],
   declarations: [
     StatisticalIdcComponent,

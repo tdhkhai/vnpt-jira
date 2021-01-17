@@ -90,23 +90,23 @@
               <th nzAlign="center">Xóa</th>
             </tr>
           </thead>
-  <tbody>
-    <tr *ngFor="let data2 of data.extend ; index as i">
-      <td nzAlign="center">{{ i+1 }}</td>
-      <td nzAlign="center">{{ data2.numberOfExtend }}</td>
-      <td nzAlign="center">{{ data2.fromDate | date:'dd/MM/yyyy' }}</td>
-      <td nzAlign="center">{{ data2.toDate | date:'dd/MM/yyyy'}}</td>
-      <td nzAlign="center" style="color: red;font-weight: bold;">{{ data2.income | currency: 'VND' :'' }}</td>
-      <td nzAlign="center">{{ data2.incomeDate | date:'dd/MM/yyyy'}}</td>
-      <td>{{ data2.remark }}</td>
-      <td nzAlign="center">
-        <a nzAlign="center" style="color: red;" (click)="deleteExtend(data._id, data2._id)"><i nz-icon
-            nzType="delete" nzTheme="outline"></i></a>
-      </td>
-    </tr>
+          <tbody>
+            <tr *ngFor="let data2 of data.extend ; index as i">
+              <td nzAlign="center">{{ i+1 }}</td>
+              <td nzAlign="center">{{ data2.numberOfExtend }}</td>
+              <td nzAlign="center">{{ data2.fromDate | date:'dd/MM/yyyy' }}</td>
+              <td nzAlign="center">{{ data2.toDate | date:'dd/MM/yyyy'}}</td>
+              <td nzAlign="center" style="color: red;font-weight: bold;">{{ data2.income | currency: 'VND' :'' }}</td>
+              <td nzAlign="center">{{ data2.incomeDate | date:'dd/MM/yyyy'}}</td>
+              <td>{{ data2.remark }}</td>
+              <td nzAlign="center">
+                <a nzAlign="center" style="color: red;" (click)="deleteExtend(data._id, data2._id)"><i nz-icon
+                    nzType="delete" nzTheme="outline"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        </tr>
+        </ng-container>
   </tbody>
-</nz-table>
-</tr>
-</ng-container>
-</tbody>
 </nz-table>

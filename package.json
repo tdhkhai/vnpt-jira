@@ -15,7 +15,10 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
-    "mongoose": "^5.10.7"
+    "mongoose": "^5.10.7",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primeng": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

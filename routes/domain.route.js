@@ -86,7 +86,7 @@ domainRoute.route('/pushextenddomain/:id').put((req, res, next) => {
 domainRoute.route('/pullextenddomain/:id').put((req, res, next) => {
   Domain.findByIdAndUpdate(
     req.params.id, {
-    $pull: { "extend": { _id : req.body._id } },
+    $pull: { "extend": { _id: req.body._id } },
 
   }, (error, data) => {
     if (error) {
@@ -130,9 +130,15 @@ domainRoute.route('/delete/:id').delete((req, res, next) => {
 })
 
 
+
 // Count cusomer
 domainRoute.route('/count-customers').get((req, res, next) => {
   Domain.aggregate([
+    {
+      "$addFields": {
+        "daysRemainExpired": { $round: [{ $divide: [{ $subtract: ["$$NOW", "$expirationDate"] }, 1000 * 60 * 60 * 24] }] }
+      }
+    },
     {
       "$group": {
         "_id": {
@@ -150,26 +156,51 @@ domainRoute.route('/count-customers').get((req, res, next) => {
         "countCanceled": {
           "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
         },
-        "countNeedExtend": {
-          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
+        "countCusExpired": {
+          "$sum": { "$cond": [{ $lte: ["$daysRemainExpired", "30"] }, 1, 0] }
         }
       },
     },
     {
-      "$sort" : {
-        "_id.year" : -1
+      "$sort": {
+        "_id.year": -1
       }
     }
   ], (error, data) => {
     if (error) {
-      
+
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data
-      })
+      res.status(200).json(data)
     }
   })
 })
+
+// List Customer by Status
+domainRoute.route('/list-cus-by-status').post((req, res, next) => {
+  Domain.aggregate([
+    {
+      "$addFields": {
+        "year": { "$dateToString": { "date": "$expirationDate", "format": "%Y" } },
+        "daysRemainExpired": { $round: [{ $divide: [{ $subtract: ["$$NOW", "$expirationDate"] }, 1000 * 60 * 60 * 24] }] }
+      }
+    },
+    {
+      "$match": {
+        "status": req.body.status,
+        "year": req.body.year,
+        "daysRemainExpired": { $lte: 30}
+      }
+    },
+  ], (error, data) => {
+    if (error) {
+
+      return next(error);
+    } else {
+      res.status(200).json(data)
+    }
+  })
+})
+
 
 module.exports = domainRoute;
