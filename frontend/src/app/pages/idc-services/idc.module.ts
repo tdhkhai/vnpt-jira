@@ -10,6 +10,9 @@ import { OverviewIdcComponent } from './overview-idc/overview-idc.component';
 import { AddIdcComponent } from './add-idc/add-idc.component';
 import { EditIdcComponent } from './edit-idc/edit-idc.component';
 import { ExtendDetailsComponent } from './extend-details/extend-details.component';
+import { PrimengModule } from 'src/app/primeng.module';
+import { ListIdcByStatusComponent } from './list-idc-by-status/list-idc-by-status.component';
+import { IdcListExpiredComponent } from './idc-list-expired/idc-list-expired.component';
 
 @NgModule({
   imports: [
@@ -19,6 +22,7 @@ import { ExtendDetailsComponent } from './extend-details/extend-details.componen
     ReactiveFormsModule,
     MatModule,
     IDCRoutingModule,
+    PrimengModule,
   ],
   declarations: [
     StatisticalIdcComponent,
@@ -26,6 +30,8 @@ import { ExtendDetailsComponent } from './extend-details/extend-details.componen
     AddIdcComponent,
     EditIdcComponent,
     ExtendDetailsComponent,
+    ListIdcByStatusComponent,
+    IdcListExpiredComponent,
   ],
   exports: [
     StatisticalIdcComponent,
@@ -33,6 +39,8 @@ import { ExtendDetailsComponent } from './extend-details/extend-details.componen
     AddIdcComponent,
     EditIdcComponent,
     ExtendDetailsComponent,
+    ListIdcByStatusComponent,
+    IdcListExpiredComponent,
   ],
   providers: [
   ]

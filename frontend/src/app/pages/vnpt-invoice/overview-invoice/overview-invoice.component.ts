@@ -27,84 +27,6 @@ export class OverviewInvoiceComponent implements OnInit {
 
   dataInvoice: any;
 
-  listOfData: Person[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-    ,
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-  ];
-
-
   countInvoices: any;
   allCusDemoInvoice = 0;
   allCusGoliveInvoice = 0;
@@ -126,7 +48,7 @@ export class OverviewInvoiceComponent implements OnInit {
 
   getCountInvoice() {
     this.invoiceAPI.GetCountInvoice().subscribe((res) => {
-      this.countInvoices = res.msg;
+      this.countInvoices = res;
       this.countInvoices.forEach(element => {
         this.allCusDemoInvoice += element.countDemo;
         this.allCusGoliveInvoice += element.countGolive;
@@ -232,7 +154,6 @@ export class OverviewInvoiceComponent implements OnInit {
       status: status
     };
 
-    console.log(payload);
     const modal = this.modalService.create({
       nzTitle: 'DANH SÁCH KHÁCH HÀNG ' + status.toUpperCase() + ' TRONG NĂM ' + year,
       nzContent: ListInvoiceByStatusComponent,
