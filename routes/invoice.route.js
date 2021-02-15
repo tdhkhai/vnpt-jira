@@ -414,6 +414,152 @@ invoiceRoute.route('/so-lieu-site-don-vi').post((req, res, next) => {
   })
 })
 
+// Count Site by Unit
+invoiceRoute.route('/count-site-by-unit').post((req, res, next) => {
+  Invoice.aggregate([{
+    $facet: {
+      "countSiteAccumulated": [{
+        "$group": {
+          "_id": { "unitCode": "$am.unitCode" },
+          "countDemoAccumulated": {
+            "$sum": {
+              "$cond": [{ $eq: ["$status", "Demo"] }, 1, 0]
+            }
+          },
+          "countGoliveAccumulated": {
+            "$sum": {
+              "$cond": [{ $eq: ["$status", "Golive"] }, 1, 0]
+            }
+          },
+          "countDeleteAccumulated": {
+            "$sum": {
+              "$cond": [{ $eq: ["$status", "Delete"] }, 1, 0]
+            }
+          }
+        }
+      }],
+      "countSitebyInMonth": [{
+        "$group": {
+          "_id": { "unitCode": "$am.unitCode" },
+          "countDemoInMonth": {
+            "$sum": {
+              "$cond": [{
+                $and: [{ $eq: ["$status", "Demo"] },
+                { $eq: ["$monthAction", new Date(req.body.month)] }
+                ]
+              }, 1, 0]
+            }
+          },
+          "countGoliveInMonth": {
+            "$sum": {
+              "$cond": [{
+                $and: [{ $gte: ["$dateGolive", new Date(req.body.month)] },
+                { $lte: ["$dateGolive", new Date(req.body.eomonth)] }
+                ]
+              }, 1, 0]
+            }
+          },
+          "countGoliveInPast": {
+            "$sum": {
+              "$cond": [{
+                $and: [{ $gte: ["$dateGolive", new Date(req.body.month)] },
+                { $lte: ["$dateGolive", new Date(req.body.eomonth)] },
+                { $lte: ["$monthAction", new Date(req.body.month)] }
+                ]
+              }, 1, 0]
+            }
+          }
+        }
+      }]
+    }
+  },
+  {
+    $project: {
+      all: {
+        $concatArrays: ["$countSiteAccumulated", "$countSitebyInMonth"]
+      }
+    }
+  },
+  {
+    $unwind: "$all"
+  },
+  // Gom lai
+  {
+    $group: {
+      "_id": {
+        "unitCode": "$all._id.unitCode",
+      },
+      "countDemoAccumulated": { "$sum": "$all.countDemoAccumulated" },
+      "countGoliveAccumulated": { "$sum": "$all.countGoliveAccumulated" },
+      "countDeleteAccumulated": { "$sum": "$all.countDeleteAccumulated" },
+      "countDemoInMonth": { "$sum": "$all.countDemoInMonth" },
+      "countGoliveInMonth": { "$sum": "$all.countGoliveInMonth" },
+      "countGoliveInPast": { "$sum": "$all.countGoliveInPast" },
+    },
+  },
+  {
+    $sort: {
+      "_id.unitCode": 1
+    }
+  }
+  ], (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json(data)
+    }
+  })
+})
+
+// Count Site by AM
+invoiceRoute.route('/count-site-by-am').post((req, res, next) => {
+  Invoice.aggregate([{
+    "$group": {
+      "_id": { "unitCode": "$am.unitCode", "userName": "$am.userName" },
+      "countDemoInMonth": {
+        "$sum": {
+          "$cond": [{
+            $and: [{ $gte: ["$dateDemo", new Date(req.body.month)] },
+            { $lte: ["$dateDemo", new Date(req.body.eomonth)] }
+            ]
+          }, 1, 0]
+        }
+      },
+      "countGoliveInMonth": {
+        "$sum": {
+          "$cond": [{
+            $and: [{ $gte: ["$dateGolive", new Date(req.body.month)] },
+            { $lte: ["$dateGolive", new Date(req.body.eomonth)] }
+            ]
+          }, 1, 0]
+        }
+      },
+      "countGoliveInPast": {
+        "$sum": {
+          "$cond": [{
+            $and: [{ $gte: ["$dateGolive", new Date(req.body.month)] },
+            { $lte: ["$dateGolive", new Date(req.body.eomonth)] },
+            { $lte: ["$monthAction", new Date(req.body.month)] }
+            ]
+          }, 1, 0]
+        }
+      }
+    }
+  },
+  {
+    "$sort": {
+      "_id.unitCode": 1
+    }
+  }
+  ], (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json(data)
+    }
+  })
+})
+
 // Count cusomer
 invoiceRoute.route('/count-customers').get((req, res, next) => {
   Invoice.aggregate([
@@ -636,7 +782,7 @@ invoiceRoute.route('/list-invoice-by-status').post((req, res, next) => {
       "$addFields": {
         "year": { "$dateToString": { "date": "$monthAction", "format": "%Y" } },
       }
-    },  
+    },
     {
       "$match": {
         "status": req.body.status,
@@ -656,6 +802,29 @@ invoiceRoute.route('/list-invoice-by-status').post((req, res, next) => {
     }
   })
 })
+
+// List by CusTaxCode
+invoiceRoute.route('/list-invoice-by-com-tax-code').post((req, res, next) => {
+  Invoice.aggregate([
+    {
+      "$match": {
+        "comTaxCode": req.body.selectedComTaxCode,
+      }
+    },
+    {
+      "$sort": {
+        "monthAction": 1
+      }
+    }
+  ], (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json(data)
+    }
+  })
+})
+
 
 
 module.exports = invoiceRoute;

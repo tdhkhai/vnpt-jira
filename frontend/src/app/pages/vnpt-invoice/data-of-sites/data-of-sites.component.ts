@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
 import * as moment from 'moment';
@@ -11,19 +11,22 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 })
 export class DataOfSitesComponent implements OnInit {
   loading: boolean;
-  date = null;
+  date = new Date();
   listOfDataAM: any = [];
-  sumCountSiteCreated = 0;
-  sumCountGolive = 0;
-  sumCountGoliveinMonth = 0;
-  sumCountDemoNotGoliveInMonth = 0;
-
+  sumCountDemoInMonthbyAM = 0;
+  sumCountGoliveInMonthbyAM = 0;
+  sumCountGoliveInPastbyAM = 0;
+  sumarySiteInMonthByAM = 0;
   listOfDataDonvi: any = [];
-  sumCountSiteCreatedDonvi = 0;
-  sumCountGoliveDonvi = 0;
-  sumCountGoliveinMonthDonvi = 0;
-  sumCountDemoNotGoliveInMonthDonvi = 0;
-
+  sumCountDemoAccumulatedbyUnit = 0;
+  sumCountGoliveAccumulatedbyUnit = 0;
+  sumCountDeleteAccumulatedbyUnit = 0;
+  summaryAccumulatedbyUnit = 0;
+  sumCountDemoInMonthbyUnit = 0;
+  sumCountGoliveInMonthbyUnit = 0;
+  sumCountGoliveInPastbyUnit = 0;
+  summaryInMonthbyUnit = 0;
+  sumaryMonth = 0;
   constructor(
     public dialog: MatDialog,
     private invoiceAPI: InvoiceService,
@@ -31,41 +34,49 @@ export class DataOfSitesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getData(this.date);
   }
 
   getData(result: Date) {
     this.loading = true;
+    const lastYear = moment(result).year() - 1;
     const month = moment(result).startOf('month').toISOString();
     const eomonth = moment(result).endOf('month').toISOString();
-    const payload = { month, eomonth };
+    const payload = { month, eomonth, lastYear };
 
-    this.invoiceAPI.dataOfSitesAM(payload).subscribe(
+    this.invoiceAPI.CountSitebyAM(payload).subscribe(
       (data) => {
         this.listOfDataAM = data;
         this.loading = false;
-        this.sumCountSiteCreated = this.listOfDataAM.msg.reduce((sum, curr) => sum + curr.countSiteCreated, 0);
-        this.sumCountGolive = this.listOfDataAM.msg.reduce((sum, curr) => sum + curr.countGolive, 0);
-        this.sumCountGoliveinMonth = this.listOfDataAM.msg.reduce((sum, curr) => sum + curr.countGoliveinMonth, 0);
-        this.sumCountDemoNotGoliveInMonth = this.listOfDataAM.msg.reduce((sum, curr) => sum + curr.countDemoNotGoliveInMonth, 0);
-
+        this.sumarySiteInMonthByAM = this.sumCountDemoInMonthbyAM + this.sumCountGoliveInMonthbyAM + this.sumCountGoliveInPastbyAM;
+        this.sumCountDemoInMonthbyAM = this.listOfDataAM.reduce((sum, curr) => sum + curr.countDemoInMonth, 0);
+        this.sumCountGoliveInMonthbyAM = this.listOfDataAM.reduce((sum, curr) => sum + curr.countGoliveInMonth, 0);
+        this.sumCountGoliveInPastbyAM = this.listOfDataAM.reduce((sum, curr) => sum + curr.countGoliveInPast, 0);
       }, (error) => {
         console.log(error);
         this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
       });
 
-    this.invoiceAPI.dataOfSitesDonVi(payload).subscribe(
+    this.invoiceAPI.CountSitebyUnit(payload).subscribe(
       (data) => {
         this.listOfDataDonvi = data;
         this.loading = false;
-        this.sumCountSiteCreatedDonvi = this.listOfDataDonvi.msg.reduce((sum, curr) => sum + curr.countSiteCreated, 0);
-        this.sumCountGoliveDonvi = this.listOfDataDonvi.msg.reduce((sum, curr) => sum + curr.countGolive, 0);
-        this.sumCountGoliveinMonthDonvi = this.listOfDataDonvi.msg.reduce((sum, curr) => sum + curr.countGoliveinMonth, 0);
-        this.sumCountDemoNotGoliveInMonthDonvi = this.listOfDataDonvi.msg.reduce((sum, curr) => sum + curr.countDemoNotGoliveInMonth, 0);
+        this.sumCountDemoAccumulatedbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countDemoAccumulated, 0);
+        this.sumCountGoliveAccumulatedbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countGoliveAccumulated, 0);
+        this.sumCountDeleteAccumulatedbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countDeleteAccumulated, 0);
+        // tslint:disable-next-line: max-line-length
+        this.summaryAccumulatedbyUnit = this.sumCountDemoAccumulatedbyUnit + this.sumCountGoliveAccumulatedbyUnit + this.sumCountDeleteAccumulatedbyUnit;
+        this.sumCountDemoInMonthbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countDemoInMonth, 0);
+        this.sumCountGoliveInMonthbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countGoliveInMonth, 0);
+        this.sumCountGoliveInPastbyUnit = this.listOfDataDonvi.reduce((sum, curr) => sum + curr.countGoliveInPast, 0);
+
+        this.sumaryMonth = this.sumCountDemoInMonthbyUnit + this.sumCountGoliveInMonthbyUnit + this.sumCountGoliveInPastbyUnit;
+        // tslint:disable-next-line: max-line-length
+        this.summaryInMonthbyUnit = this.sumCountDemoInMonthbyUnit + this.sumCountGoliveInMonthbyUnit;
 
       }, (error) => {
         console.log(error);
         this.notification.create('error', 'Lỗi', 'Đã xảy ra lỗi, vui lòng thử lại!');
       });
   }
-
 }

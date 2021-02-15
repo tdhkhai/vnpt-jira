@@ -25,7 +25,7 @@ export class InvoiceService {
   }
 
   // Get all Invoices
-  GetInvoices(){
+  GetInvoices() {
     return this.http.get(`${this.endpoint}`);
   }
 
@@ -78,6 +78,18 @@ export class InvoiceService {
   // List Invoice by Status
   GetListInvoicebyStatus(data): Observable<any> {
     const API_URL = `${this.endpoint}/list-invoice-by-status`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // List Invoice by ComTaxCode
+  GetListInvoiceByComTaxCode(data): Observable<any> {
+    const API_URL = `${this.endpoint}/list-invoice-by-com-tax-code`;
     return this.http.post(API_URL, data)
       .pipe(
         map((res: Response) => {
@@ -150,6 +162,34 @@ export class InvoiceService {
   sumaryTheoThangAM(data: any) {
 
     const API_URL = `${this.endpoint}/sumary-theo-thang-am`;
+
+    return this.http.post(API_URL, data)
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // CountSitebyUnit
+  CountSitebyUnit(data: any) {
+
+    const API_URL = `${this.endpoint}/count-site-by-unit`;
+
+    return this.http.post(API_URL, data)
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // CountSitebyAM
+  CountSitebyAM(data: any) {
+
+    const API_URL = `${this.endpoint}/count-site-by-am`;
 
     return this.http.post(API_URL, data)
       .pipe(

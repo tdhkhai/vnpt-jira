@@ -96,7 +96,9 @@
           data.am.userName
           }}</span>
       </td>
-      <td nzAlign="center">{{ data.comTaxCode }}</td>
+      <td nzAlign="center">
+        <a (click)="showListIncomeByComTaxCode(data.comTaxCode)">{{ data.comTaxCode }}</a>
+      </td>
       <td>{{ data.comName }}</td>
       <td nzAlign="center">{{ data.dateDemo | date: "dd/MM/yyyy" }}</td>
       <td nzAlign="center">{{ data.dateGolive | date: "dd/MM/yyyy" }}</td>

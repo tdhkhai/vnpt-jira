@@ -9,6 +9,7 @@ import { InvoiceService } from 'src/app/core/services/invoice.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EditStaticticalInvoiceComponent } from '../edit-statictical-invoice/edit-statictical-invoice.component';
 import { Invoice } from 'src/app/core/models/vnpt-invoice';
+import { ListInvoiceByCusTaxCodeComponent } from '../list-invoice-by-com-tax-code/list-invoice-by-com-tax-code';
 
 @Component({
   selector: 'app-statistical-invoice',
@@ -25,6 +26,7 @@ export class StatisticalInvoiceComponent implements OnInit {
   fileUpload: File;
   listOfData: any = [];
   listOfAllData: any = [];
+  listInvoiceByComTaxCode: any = [];
   loading: boolean;
   isVisibleInfoSite = false;
   selectedData: any;
@@ -75,6 +77,20 @@ export class StatisticalInvoiceComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  showListIncomeByComTaxCode(selectedComTaxCode: string) {
+    const modal = this.modalService.create({
+      nzTitle: 'CÁC LẦN MUA BỔ SUNG HÓA ĐƠN ĐIỆN TỬ',
+      nzContent: ListInvoiceByCusTaxCodeComponent,
+      nzWidth: 1300,
+
+    });
+    this.invoiceAPI.GetListInvoiceByComTaxCode({ selectedComTaxCode }).subscribe((data) => {
+      this.listInvoiceByComTaxCode = data;
+    });
+
+    modal.componentInstance.listOfData = this.listInvoiceByComTaxCode;
   }
 
   exportExcel() {

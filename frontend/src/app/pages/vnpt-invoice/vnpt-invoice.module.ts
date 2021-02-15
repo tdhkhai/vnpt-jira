@@ -18,6 +18,7 @@ import { OverviewInvoiceComponent } from './overview-invoice/overview-invoice.co
 import { PrimengModule } from 'src/app/primeng.module';
 import { ChartsModule } from 'ng2-charts';
 import { ListInvoiceByStatusComponent } from './list-invoice-by-status/list-invoice-by-status.component';
+import { ListInvoiceByCusTaxCodeComponent } from './list-invoice-by-com-tax-code/list-invoice-by-com-tax-code';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { ListInvoiceByStatusComponent } from './list-invoice-by-status/list-invo
     EditStaticticalInvoiceComponent,
     OverviewInvoiceComponent,
     ListInvoiceByStatusComponent,
+    ListInvoiceByCusTaxCodeComponent
   ],
   exports: [
     BuildInvoiceExamplesComponent,
@@ -53,6 +55,7 @@ import { ListInvoiceByStatusComponent } from './list-invoice-by-status/list-invo
     DataOfSitesComponent,
     OverviewInvoiceComponent,
     ListInvoiceByStatusComponent,
+    ListInvoiceByCusTaxCodeComponent
   ],
   providers: [
   ]
