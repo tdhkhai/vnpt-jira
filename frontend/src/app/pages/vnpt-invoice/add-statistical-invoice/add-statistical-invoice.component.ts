@@ -35,7 +35,7 @@ export class AddStatisticalInvoiceComponent implements OnInit {
 
   invoiceForm: FormGroup;
 
-  dateAction: Date;
+  dateAction = new Date();
   dateDemo: Date;
   dateGolive: Date;
   dateExtend: Date;

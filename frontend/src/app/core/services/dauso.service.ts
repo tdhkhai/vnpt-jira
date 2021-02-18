@@ -27,8 +27,8 @@ export class DausoService {
     return this.http.get<Dauso[]>(`${this.endpoint}`);
   }
 
-   // Get Count Dau so
-   GetCountDauso(): Observable<any> {
+  // Get Count Dau so
+  GetCountDauso(): Observable<any> {
     const API_URL = `${this.endpoint}/count-customers`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
@@ -43,6 +43,18 @@ export class DausoService {
   GetDauso(id): Observable<any> {
     const API_URL = `${this.endpoint}/read/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res: Response) => {
+          return res || {};
+        }),
+        catchError(this.errorMgmt)
+      );
+  }
+
+  // List by Status
+  GetListbyStatus(data): Observable<any> {
+    const API_URL = `${this.endpoint}/list-by-status`;
+    return this.http.post(API_URL, data)
       .pipe(
         map((res: Response) => {
           return res || {};

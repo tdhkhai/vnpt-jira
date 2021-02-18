@@ -34,15 +34,15 @@ export class StatisticalInvoiceComponent implements OnInit {
   listOfCurrentPageData: any = [];
   isSpinning = false;
 
-  dateSelected: Date;
-  today: Date;
+  dateSelected = new Date();
+  today = new Date();
   constructor(
     private excelToFile: ExcelToFileService,
     private notification: NzNotificationService,
     private invoiceAPI: InvoiceService,
     private modalService: NzModalService,
   ) {
-    this.dateSelected = new Date();
+    // this.dateSelected = new Date();
     this.getAllInvoices();
 
   }

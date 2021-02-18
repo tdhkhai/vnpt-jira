@@ -12,7 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['./income-month-invoice.component.scss']
 })
 export class IncomeMonthInvoiceComponent implements OnInit {
-  date = null;
+  date = new Date();
   listDTMoiAM: any = [];
   listDTGHAM: any = [];
   listDTMoi: any = [];

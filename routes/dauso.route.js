@@ -147,18 +147,12 @@ dausoRoute.route('/count-customers').get((req, res, next) => {
         "countAll": {
           "$sum": 1
         },
-        "countActived": {
+        "countNew": {
           "$sum": { "$cond": [{ $eq: ["$status", "1"] }, 1, 0] }
         },
-        "countExtend": {
+        "countCanceled": {
           "$sum": { "$cond": [{ $eq: ["$status", "2"] }, 1, 0] }
         },
-        "countCanceled": {
-          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
-        },
-        "countNeedExtend": {
-          "$sum": { "$cond": [{ $eq: ["$status", "3"] }, 1, 0] }
-        }
       },
     },
     {
@@ -176,6 +170,29 @@ dausoRoute.route('/count-customers').get((req, res, next) => {
   })
 })
 
+// List by Status
+dausoRoute.route('/list-by-status').post((req, res, next) => {
+  Dauso.aggregate([
+    {
+      "$addFields": {
+        "year": { "$dateToString": { "date": "$registrationDate", "format": "%Y" } 
+        },
+      },
+    },
+    {
+      "$match": {
+        "status": req.body.status,
+        "year": req.body.year,
+      }
+    },
+  ], (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json(data)
+    }
+  })
+})
 
 
 module.exports = dausoRoute;
